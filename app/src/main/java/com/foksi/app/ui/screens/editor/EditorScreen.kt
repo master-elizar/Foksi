@@ -176,61 +176,63 @@ fun EditorScreen(
             }
 
             item(key = "when") {
-                SectionHeader(stringResource(R.string.section_basics))
-                EditorCard {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = stringResource(R.string.field_has_date),
-                            modifier = Modifier.weight(1f),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        Switch(checked = state.hasDate, onCheckedChange = viewModel::setHasDate)
-                    }
-                    if (state.hasDate) {
-                        val start = item.startAt ?: TimeUtils.now()
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            AssistChip(
-                                onClick = { showDate = true },
-                                label = { Text(TimeUtils.formatDate(context, start)) },
-                            )
-                            if (!item.allDay) {
-                                AssistChip(
-                                    onClick = { showTime = true },
-                                    label = {
-                                        Text(
-                                            TimeUtils.formatTime(context, start, state.settings.use24h)
-                                        )
-                                    },
-                                )
-                            }
-                        }
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    SectionHeader(stringResource(R.string.section_basics))
+                    EditorCard {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = stringResource(R.string.field_all_day),
+                                text = stringResource(R.string.field_has_date),
                                 modifier = Modifier.weight(1f),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
-                            Switch(checked = item.allDay, onCheckedChange = viewModel::setAllDay)
+                            Switch(checked = state.hasDate, onCheckedChange = viewModel::setHasDate)
                         }
-                        if (!item.allDay) {
-                            Text(
-                                text = stringResource(R.string.field_duration) + ": " +
-                                    TimeUtils.formatDuration(context, item.durationMinutes),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .horizontalScroll(rememberScrollState()),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                DURATION_PRESETS.forEach { minutes ->
-                                    FilterChip(
-                                        selected = item.durationMinutes == minutes,
-                                        onClick = { viewModel.setDuration(minutes) },
-                                        label = { Text(TimeUtils.formatDuration(context, minutes)) },
-                                        shape = RoundedCornerShape(16.dp),
+                        if (state.hasDate) {
+                            val start = item.startAt ?: TimeUtils.now()
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                AssistChip(
+                                    onClick = { showDate = true },
+                                    label = { Text(TimeUtils.formatDate(context, start)) },
+                                )
+                                if (!item.allDay) {
+                                    AssistChip(
+                                        onClick = { showTime = true },
+                                        label = {
+                                            Text(
+                                                TimeUtils.formatTime(context, start, state.settings.use24h)
+                                            )
+                                        },
                                     )
+                                }
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = stringResource(R.string.field_all_day),
+                                    modifier = Modifier.weight(1f),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                Switch(checked = item.allDay, onCheckedChange = viewModel::setAllDay)
+                            }
+                            if (!item.allDay) {
+                                Text(
+                                    text = stringResource(R.string.field_duration) + ": " +
+                                        TimeUtils.formatDuration(context, item.durationMinutes),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .horizontalScroll(rememberScrollState()),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    DURATION_PRESETS.forEach { minutes ->
+                                        FilterChip(
+                                            selected = item.durationMinutes == minutes,
+                                            onClick = { viewModel.setDuration(minutes) },
+                                            label = { Text(TimeUtils.formatDuration(context, minutes)) },
+                                            shape = RoundedCornerShape(16.dp),
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -239,71 +241,73 @@ fun EditorScreen(
             }
 
             item(key = "meta") {
-                SectionHeader(stringResource(R.string.section_details))
-                EditorCard {
-                    Text(
-                        text = stringResource(R.string.field_priority),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Priority.entries.forEach { priority ->
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    SectionHeader(stringResource(R.string.section_details))
+                    EditorCard {
+                        Text(
+                            text = stringResource(R.string.field_priority),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Priority.entries.forEach { priority ->
+                                FilterChip(
+                                    selected = item.priority == priority,
+                                    onClick = { viewModel.setPriority(priority) },
+                                    label = { Text(stringResource(priorityLabel(priority))) },
+                                    shape = RoundedCornerShape(16.dp),
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = stringResource(R.string.field_category),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState()),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
                             FilterChip(
-                                selected = item.priority == priority,
-                                onClick = { viewModel.setPriority(priority) },
-                                label = { Text(stringResource(priorityLabel(priority))) },
+                                selected = item.categoryId == null,
+                                onClick = { viewModel.setCategory(null) },
+                                label = { Text(stringResource(R.string.category_none)) },
                                 shape = RoundedCornerShape(16.dp),
                             )
-                        }
-                    }
-
-                    Text(
-                        text = stringResource(R.string.field_category),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        FilterChip(
-                            selected = item.categoryId == null,
-                            onClick = { viewModel.setCategory(null) },
-                            label = { Text(stringResource(R.string.category_none)) },
-                            shape = RoundedCornerShape(16.dp),
-                        )
-                        state.categories.forEach { category ->
-                            FilterChip(
-                                selected = item.categoryId == category.id,
-                                onClick = { viewModel.setCategory(category.id) },
-                                label = { Text(categoryLabel(category.builtInKey, category.name)) },
-                                shape = RoundedCornerShape(16.dp),
+                            state.categories.forEach { category ->
+                                FilterChip(
+                                    selected = item.categoryId == category.id,
+                                    onClick = { viewModel.setCategory(category.id) },
+                                    label = { Text(categoryLabel(category.builtInKey, category.name)) },
+                                    shape = RoundedCornerShape(16.dp),
+                                )
+                            }
+                            AssistChip(
+                                onClick = { showCategoryDialog = true },
+                                label = { Text(stringResource(R.string.category_new)) },
                             )
                         }
-                        AssistChip(
-                            onClick = { showCategoryDialog = true },
-                            label = { Text(stringResource(R.string.category_new)) },
-                        )
-                    }
 
-                    Text(
-                        text = stringResource(R.string.field_color),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        PRESET_COLORS.forEach { argb ->
-                            Box(
-                                modifier = Modifier
-                                    .size(if (item.colorArgb == argb) 30.dp else 26.dp)
-                                    .clip(CircleShape)
-                                    .background(Color(argb))
-                                    .clickable {
-                                        viewModel.setColor(if (item.colorArgb == argb) null else argb)
-                                    }
-                            )
+                        Text(
+                            text = stringResource(R.string.field_color),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            PRESET_COLORS.forEach { argb ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(if (item.colorArgb == argb) 30.dp else 26.dp)
+                                        .clip(CircleShape)
+                                        .background(Color(argb))
+                                        .clickable {
+                                            viewModel.setColor(if (item.colorArgb == argb) null else argb)
+                                        }
+                                )
+                            }
                         }
                     }
                 }
@@ -347,81 +351,93 @@ fun EditorScreen(
 
             if (state.hasDate) {
                 item(key = "reminders") {
-                    RemindersSection(
-                        reminders = state.details.reminders,
-                        onAdd = viewModel::addReminder,
-                        onRemove = viewModel::removeReminder,
-                        onUpdate = viewModel::updateReminder,
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        RemindersSection(
+                            reminders = state.details.reminders,
+                            onAdd = viewModel::addReminder,
+                            onRemove = viewModel::removeReminder,
+                            onUpdate = viewModel::updateReminder,
+                        )
+                    }
                 }
                 item(key = "advance") {
-                    AdvanceSection(
-                        advance = item.advance,
-                        use24h = state.settings.use24h,
-                        onChange = { transform -> viewModel.updateAdvance(transform) },
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        AdvanceSection(
+                            advance = item.advance,
+                            use24h = state.settings.use24h,
+                            onChange = { transform -> viewModel.updateAdvance(transform) },
+                        )
+                    }
                 }
                 item(key = "repeat") {
-                    RepeatSection(rule = item.repeat, onChange = viewModel::setRepeat)
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        RepeatSection(rule = item.repeat, onChange = viewModel::setRepeat)
+                    }
                 }
             }
 
             item(key = "checklist") {
-                ChecklistSection(
-                    items = state.details.checklist,
-                    onAdd = viewModel::addChecklistItem,
-                    onToggle = viewModel::toggleChecklistItem,
-                    onEdit = viewModel::setChecklistText,
-                    onRemove = viewModel::removeChecklistItem,
-                    onMove = viewModel::moveChecklistItem,
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    ChecklistSection(
+                        items = state.details.checklist,
+                        onAdd = viewModel::addChecklistItem,
+                        onToggle = viewModel::toggleChecklistItem,
+                        onEdit = viewModel::setChecklistText,
+                        onRemove = viewModel::removeChecklistItem,
+                        onMove = viewModel::moveChecklistItem,
+                    )
+                }
             }
 
             item(key = "attachments") {
-                SectionHeader(stringResource(R.string.section_attachments))
-                EditorCard {
-                    state.details.attachments.forEachIndexed { index, attachment ->
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                if (attachment.isLink) Icons.Outlined.Link else Icons.Outlined.AttachFile,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                            )
-                            Spacer(Modifier.size(8.dp))
-                            Text(
-                                text = attachment.name.ifBlank { attachment.uri },
-                                style = MaterialTheme.typography.bodySmall,
-                                maxLines = 1,
-                                modifier = Modifier.weight(1f),
-                            )
-                            IconButton(onClick = { viewModel.removeAttachment(index) }) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    SectionHeader(stringResource(R.string.section_attachments))
+                    EditorCard {
+                        state.details.attachments.forEachIndexed { index, attachment ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
-                                    Icons.Outlined.Close,
-                                    contentDescription = stringResource(R.string.cd_remove),
-                                    modifier = Modifier.size(16.dp),
+                                    if (attachment.isLink) Icons.Outlined.Link else Icons.Outlined.AttachFile,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp),
                                 )
+                                Spacer(Modifier.size(8.dp))
+                                Text(
+                                    text = attachment.name.ifBlank { attachment.uri },
+                                    style = MaterialTheme.typography.bodySmall,
+                                    maxLines = 1,
+                                    modifier = Modifier.weight(1f),
+                                )
+                                IconButton(onClick = { viewModel.removeAttachment(index) }) {
+                                    Icon(
+                                        Icons.Outlined.Close,
+                                        contentDescription = stringResource(R.string.cd_remove),
+                                        modifier = Modifier.size(16.dp),
+                                    )
+                                }
                             }
                         }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        OutlinedButton(onClick = { filePicker.launch(arrayOf("*/*")) }) {
-                            Text(stringResource(R.string.attachment_add_file))
-                        }
-                        OutlinedButton(onClick = { showLinkDialog = true }) {
-                            Text(stringResource(R.string.attachment_add_link))
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedButton(onClick = { filePicker.launch(arrayOf("*/*")) }) {
+                                Text(stringResource(R.string.attachment_add_file))
+                            }
+                            OutlinedButton(onClick = { showLinkDialog = true }) {
+                                Text(stringResource(R.string.attachment_add_link))
+                            }
                         }
                     }
                 }
             }
 
             item(key = "save") {
-                Spacer(Modifier.height(10.dp))
-                Button(
-                    onClick = { viewModel.save(onSaved) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                ) { Text(stringResource(R.string.action_save)) }
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Spacer(Modifier.height(10.dp))
+                    Button(
+                        onClick = { viewModel.save(onSaved) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                    ) { Text(stringResource(R.string.action_save)) }
+                }
             }
         }
     }
