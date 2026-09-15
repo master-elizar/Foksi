@@ -1,7 +1,7 @@
 package com.foksi.app.domain.model
 
 /** Kind of thing the user stored: a calendar event, a to-do or a free-form note. */
-enum class ItemType { EVENT, TASK, NOTE }
+enum class ItemType { EVENT, TASK, NOTE, BIRTHDAY }
 
 enum class Priority { NORMAL, IMPORTANT, CRITICAL }
 
@@ -97,10 +97,14 @@ data class PlanItem(
     val completedAt: Long? = null,
     val repeat: RepeatRule = RepeatRule(),
     val advance: AdvanceConfig = AdvanceConfig(),
+    /** Birthdays only: false when the person's birth year is unknown, so no age is shown. */
+    val birthYearKnown: Boolean = true,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
 ) {
     val endAt: Long? get() = startAt?.plus(durationMinutes.toLong() * 60_000L)
+
+    val isBirthday: Boolean get() = type == ItemType.BIRTHDAY
 }
 
 /** An event plus everything attached to it. */

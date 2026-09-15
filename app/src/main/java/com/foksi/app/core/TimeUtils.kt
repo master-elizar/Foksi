@@ -77,6 +77,10 @@ object TimeUtils {
         return DateTimeFormatter.ofPattern(pattern, locale(context)).format(date)
     }
 
+    /** Always includes the year — used for birth dates, where the year carries meaning. */
+    fun formatFullDate(context: Context, millis: Long): String =
+        DateTimeFormatter.ofPattern("d MMMM yyyy", locale(context)).format(toLocalDate(millis))
+
     fun formatShortDate(context: Context, millis: Long): String =
         DateTimeFormatter.ofPattern("d MMM", locale(context)).format(toLocalDate(millis))
 

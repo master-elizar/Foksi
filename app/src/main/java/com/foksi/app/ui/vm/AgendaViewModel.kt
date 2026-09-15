@@ -86,9 +86,13 @@ class AgendaViewModel : ViewModel() {
         viewModelScope.launch { interactor.delete(id) }
     }
 
-    fun quickSave(type: ItemType, text: String) {
+    fun quickSave(type: ItemType, text: String, description: String = "") {
         viewModelScope.launch {
-            if (type == ItemType.NOTE) interactor.quickNote(text) else interactor.quickTask(text)
+            if (type == ItemType.NOTE) {
+                interactor.quickNote(text)
+            } else {
+                interactor.quickTask(text, description)
+            }
         }
     }
 

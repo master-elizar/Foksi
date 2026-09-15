@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.TaskAlt
@@ -20,6 +21,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -45,6 +48,7 @@ import androidx.navigation.navArgument
 import com.foksi.app.R
 import com.foksi.app.domain.model.ItemType
 import com.foksi.app.ui.components.QuickAddSheet
+import com.foksi.app.ui.screens.birthdays.BirthdaysScreen
 import com.foksi.app.ui.screens.calendar.CalendarScreen
 import com.foksi.app.ui.screens.detail.DetailScreen
 import com.foksi.app.ui.screens.editor.EditorScreen
@@ -54,6 +58,7 @@ import com.foksi.app.ui.screens.settings.SettingsScreen
 import com.foksi.app.ui.screens.tasks.TasksScreen
 import com.foksi.app.ui.screens.whatsnext.WhatsNextScreen
 import com.foksi.app.ui.vm.AgendaViewModel
+import com.foksi.app.ui.vm.BirthdayViewModel
 import com.foksi.app.ui.vm.CalendarViewModel
 import com.foksi.app.ui.vm.DetailViewModel
 import com.foksi.app.ui.vm.EditorViewModel
@@ -65,6 +70,7 @@ object Routes {
     const val HOME = "home"
     const val CALENDAR = "calendar"
     const val TASKS = "tasks"
+    const val BIRTHDAYS = "birthdays"
     const val SETTINGS = "settings"
     const val WHATS_NEXT = "whatsnext"
     const val SEARCH = "search"
@@ -82,6 +88,7 @@ private val bottomTabs = listOf(
     BottomTab(Routes.HOME, R.string.nav_today, Icons.Outlined.Today),
     BottomTab(Routes.CALENDAR, R.string.nav_calendar, Icons.Outlined.CalendarMonth),
     BottomTab(Routes.TASKS, R.string.nav_tasks, Icons.Outlined.TaskAlt),
+    BottomTab(Routes.BIRTHDAYS, R.string.nav_birthdays, Icons.Outlined.Cake),
     BottomTab(Routes.SETTINGS, R.string.nav_settings, Icons.Outlined.Settings),
 )
 
@@ -117,7 +124,14 @@ fun FoksiNavHost(
                                 }
                             },
                             icon = { Icon(tab.icon, contentDescription = null) },
-                            label = { Text(stringResource(tab.labelRes)) },
+                            label = {
+                                Text(
+                                    text = stringResource(tab.labelRes),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                            },
                         )
                     }
                 }
@@ -181,6 +195,18 @@ fun FoksiNavHost(
                 TasksScreen(
                     viewModel = vm,
                     onOpenItem = { navController.navigate(Routes.detail(it)) },
+                    contentPadding = contentPadding,
+                )
+            }
+
+            composable(Routes.BIRTHDAYS) {
+                val vm: BirthdayViewModel = viewModel(factory = FoksiViewModelFactory)
+                BirthdaysScreen(
+                    viewModel = vm,
+                    onOpenItem = { navController.navigate(Routes.detail(it)) },
+                    onAddBirthday = {
+                        navController.navigate(Routes.editor(type = ItemType.BIRTHDAY))
+                    },
                     contentPadding = contentPadding,
                 )
             }
@@ -257,8 +283,12 @@ fun FoksiNavHost(
                     showQuickAdd = false
                     navController.navigate(Routes.editor())
                 },
-                onQuickSave = { type, text ->
-                    quickVm.quickSave(type, text)
+                onCreateBirthday = {
+                    showQuickAdd = false
+                    navController.navigate(Routes.editor(type = ItemType.BIRTHDAY))
+                },
+                onQuickSave = { type, text, description ->
+                    quickVm.quickSave(type, text, description)
                     showQuickAdd = false
                 },
             )

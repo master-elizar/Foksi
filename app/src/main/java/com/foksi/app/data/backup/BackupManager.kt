@@ -107,6 +107,7 @@ class BackupManager(
                 priority = item.priority.name,
                 colorArgb = item.colorArgb,
                 completed = item.completed,
+                birthYearKnown = item.birthYearKnown,
                 categoryName = item.categoryId?.let { categories[it]?.name },
                 repeatMode = item.repeat.mode.name,
                 repeatInterval = item.repeat.interval,
@@ -161,6 +162,7 @@ class BackupManager(
                     priority = enumOrDefault(backup.priority, Priority.NORMAL),
                     colorArgb = backup.colorArgb,
                     completed = backup.completed,
+                    birthYearKnown = backup.birthYearKnown,
                     repeat = RepeatRule(
                         mode = enumOrDefault(backup.repeatMode, RepeatMode.NONE),
                         interval = backup.repeatInterval,

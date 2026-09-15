@@ -67,6 +67,7 @@ fun EventEntity.toDomain() = PlanItem(
     completedAt = completedAt,
     repeat = repeat.toDomain(),
     advance = advance.toDomain(),
+    birthYearKnown = birthYearKnown,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )
@@ -89,6 +90,7 @@ fun PlanItem.toEntity() = EventEntity(
     completedAt = completedAt,
     repeat = repeat.toEmbedded(),
     advance = advance.toEmbedded(),
+    birthYearKnown = birthYearKnown,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )

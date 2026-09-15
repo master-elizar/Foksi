@@ -43,14 +43,23 @@ abstract class FoksiDatabase : RoomDatabase() {
     abstract fun scheduleDao(): ScheduleDao
 
     companion object {
-        const val VERSION = 1
+        const val VERSION = 2
         private const val NAME = "foksi.db"
 
         /**
          * Real migrations live here. They are applied in order, so a user upgrading from any
          * older build keeps their data instead of losing it to a destructive fallback.
          */
-        val MIGRATIONS: Array<Migration> = arrayOf()
+        /** v1 → v2: birthdays gained a "do we know the birth year" flag. */
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE events ADD COLUMN birthYearKnown INTEGER NOT NULL DEFAULT 1"
+                )
+            }
+        }
+
+        val MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2)
 
         @Volatile
         private var instance: FoksiDatabase? = null

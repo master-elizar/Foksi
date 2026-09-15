@@ -17,6 +17,10 @@ object AlarmSoundPlayer {
     private var player: MediaPlayer? = null
     private var vibrator: Vibrator? = null
 
+    /** True while a ringtone or vibration is active, so a second caller does not restart it. */
+    val isRinging: Boolean
+        @Synchronized get() = player != null || vibrator != null
+
     @Synchronized
     fun start(context: Context, uri: Uri, vibrate: Boolean, sound: Boolean) {
         stop()

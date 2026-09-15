@@ -73,7 +73,9 @@ class AlarmActivity : ComponentActivity() {
             LaunchedEffect(eventId) {
                 details = AppGraph.planRepository.getDetails(eventId)
                 val current = AppGraph.settingsRepository.current()
-                if (current.alarmsEnabled) {
+                // Normally AlarmService already rings; this only covers the fallback path where
+                // the system refused to start a foreground service.
+                if (current.alarmsEnabled && !AlarmSoundPlayer.isRinging) {
                     AlarmSoundPlayer.start(
                         context = this@AlarmActivity,
                         uri = NotificationChannels.soundFor(isAlarm = true, settings = current),
@@ -105,6 +107,8 @@ class AlarmActivity : ComponentActivity() {
                             text = details?.item?.title.orEmpty(),
                             style = MaterialTheme.typography.headlineMedium,
                             textAlign = TextAlign.Center,
+                            maxLines = 4,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                         )
                         Spacer(Modifier.height(6.dp))
                         Text(
@@ -173,7 +177,7 @@ class AlarmActivity : ComponentActivity() {
     }
 
     private fun openEvent() {
-        AlarmSoundPlayer.stop()
+        stopRinging()
         AppGraph.notifier.cancel(notificationId)
         startActivity(
             Intent(this, MainActivity::class.java).apply {
@@ -186,22 +190,27 @@ class AlarmActivity : ComponentActivity() {
     }
 
     private fun confirm() {
-        AlarmSoundPlayer.stop()
+        stopRinging()
         AppGraph.notifier.cancel(notificationId)
         finish()
     }
 
     private fun snooze(triggerAt: Long) {
         lifecycleScope.launch {
-            AlarmSoundPlayer.stop()
+            stopRinging()
             AppGraph.scheduler.snooze(eventId, occurrence, triggerAt, ReminderType.ALARM)
             AppGraph.notifier.cancel(notificationId)
             finish()
         }
     }
 
+    private fun stopRinging() {
+        AlarmService.stop(this)
+        AlarmSoundPlayer.stop()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        AlarmSoundPlayer.stop()
+        stopRinging()
     }
 }

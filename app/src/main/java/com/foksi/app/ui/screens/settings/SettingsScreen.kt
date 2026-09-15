@@ -5,6 +5,12 @@ package com.foksi.app.ui.screens.settings
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,13 +18,25 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bedtime
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Storage
+import androidx.compose.material.icons.outlined.Widgets
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -32,11 +50,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foksi.app.BuildConfig
@@ -48,7 +70,6 @@ import com.foksi.app.domain.model.ThemeMode
 import com.foksi.app.notifications.ReminderStatusChecker
 import com.foksi.app.ui.components.FoksiTimePickerDialog
 import com.foksi.app.ui.components.ReminderStatusBanner
-import com.foksi.app.ui.components.SectionHeader
 import com.foksi.app.ui.vm.SettingsViewModel
 
 @Composable
@@ -109,7 +130,11 @@ fun SettingsScreen(
             }
 
             item(key = "appearance") {
-                SettingsSection(stringResource(R.string.settings_appearance)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_appearance),
+                    icon = Icons.Outlined.Palette,
+                    initiallyExpanded = true,
+                ) {
                     ChipRow(stringResource(R.string.settings_theme)) {
                         themeEntries().forEach { (mode, labelRes) ->
                             FilterChip(
@@ -144,7 +169,11 @@ fun SettingsScreen(
             }
 
             item(key = "notifications") {
-                SettingsSection(stringResource(R.string.settings_notifications)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_notifications),
+                    icon = Icons.Outlined.NotificationsActive,
+                    initiallyExpanded = false,
+                ) {
                     SwitchRow(
                         stringResource(R.string.settings_notifications_enabled),
                         settings.notificationsEnabled,
@@ -194,7 +223,11 @@ fun SettingsScreen(
             }
 
             item(key = "quiet") {
-                SettingsSection(stringResource(R.string.settings_quiet_hours)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_quiet_hours),
+                    icon = Icons.Outlined.Bedtime,
+                    initiallyExpanded = false,
+                ) {
                     SwitchRow(
                         stringResource(R.string.settings_quiet_hours),
                         settings.quietHoursEnabled,
@@ -270,7 +303,11 @@ fun SettingsScreen(
             }
 
             item(key = "calendar") {
-                SettingsSection(stringResource(R.string.settings_calendar)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_calendar),
+                    icon = Icons.Outlined.CalendarMonth,
+                    initiallyExpanded = false,
+                ) {
                     ChipRow(stringResource(R.string.settings_first_day)) {
                         FilterChip(
                             selected = settings.firstDayOfWeek == 1,
@@ -325,7 +362,11 @@ fun SettingsScreen(
             }
 
             item(key = "widgets") {
-                SettingsSection(stringResource(R.string.settings_widgets)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_widgets),
+                    icon = Icons.Outlined.Widgets,
+                    initiallyExpanded = false,
+                ) {
                     ChipRow(stringResource(R.string.settings_widget_count)) {
                         listOf(3, 4, 5, 6, 8, 10).forEach { value ->
                             FilterChip(
@@ -355,7 +396,11 @@ fun SettingsScreen(
             }
 
             item(key = "data") {
-                SettingsSection(stringResource(R.string.settings_data)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_data),
+                    icon = Icons.Outlined.Storage,
+                    initiallyExpanded = false,
+                ) {
                     OutlinedButton(
                         onClick = { exportJsonLauncher.launch("foksi-export.json") },
                         modifier = Modifier.fillMaxWidth(),
@@ -384,7 +429,11 @@ fun SettingsScreen(
             }
 
             item(key = "about") {
-                SettingsSection(stringResource(R.string.settings_about)) {
+                SettingsSection(
+                    title = stringResource(R.string.settings_about),
+                    icon = Icons.Outlined.Info,
+                    initiallyExpanded = false,
+                ) {
                     Text(
                         text = stringResource(R.string.settings_version, BuildConfig.VERSION_NAME),
                         style = MaterialTheme.typography.bodyMedium,
@@ -431,20 +480,75 @@ fun SettingsScreen(
     }
 }
 
+/**
+ * A settings group that stays folded until it is needed, so the screen opens as a short list of
+ * topics instead of one long wall of switches.
+ */
 @Composable
-private fun SettingsSection(title: String, content: @Composable ColumnScope.() -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-        SectionHeader(title)
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(22.dp),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                content = content,
-            )
+private fun SettingsSection(
+    title: String,
+    icon: ImageVector,
+    initiallyExpanded: Boolean = false,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    var expanded by rememberSaveable(title) { mutableStateOf(initiallyExpanded) }
+    val arrowRotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "sectionArrow",
+    )
+
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(22.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+    ) {
+        Column {
+            Surface(
+                onClick = { expanded = !expanded },
+                color = MaterialTheme.colorScheme.surface,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                    Spacer(Modifier.width(14.dp))
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.ExpandMore,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .size(22.dp)
+                            .rotate(arrowRotation),
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = expanded,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically(),
+            ) {
+                Column(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    content = content,
+                )
+            }
         }
     }
 }
