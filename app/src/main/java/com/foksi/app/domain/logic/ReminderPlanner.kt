@@ -210,13 +210,16 @@ object ReminderPlanner {
         val sorted = items.sortedBy { it.triggerAt }
         val mainTimes = sorted.filter { it.kind == NotificationKind.MAIN }.map { it.triggerAt }
         val kept = mutableListOf<ScheduledNotification>()
-        var lastSoft = Long.MIN_VALUE
+        // Null rather than Long.MIN_VALUE: subtracting the latter overflows and would silently
+        // swallow every advance reminder.
+        var lastSoft: Long? = null
         for (candidate in sorted) {
             if (candidate.kind == NotificationKind.MAIN) {
                 kept += candidate
                 continue
             }
-            if (candidate.triggerAt - lastSoft < minGap) continue
+            val previous = lastSoft
+            if (previous != null && candidate.triggerAt - previous < minGap) continue
             // Never nag right before a real reminder fires anyway.
             if (mainTimes.any { kotlin.math.abs(it - candidate.triggerAt) < minGap }) continue
             kept += candidate
