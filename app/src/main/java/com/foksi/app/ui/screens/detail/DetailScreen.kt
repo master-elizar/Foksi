@@ -229,46 +229,52 @@ fun DetailScreen(
 
             if (item.description.isNotBlank()) {
                 item(key = "description") {
-                    SectionHeader(stringResource(R.string.field_description))
-                    Text(text = item.description, style = MaterialTheme.typography.bodyMedium)
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        SectionHeader(stringResource(R.string.field_description))
+                        Text(text = item.description, style = MaterialTheme.typography.bodyMedium)
+                    }
                 }
             }
 
             if (item.notes.isNotBlank()) {
                 item(key = "notes") {
-                    SectionHeader(stringResource(R.string.field_notes))
-                    Surface(
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = item.notes,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(16.dp),
-                        )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        SectionHeader(stringResource(R.string.field_notes))
+                        Surface(
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            shape = RoundedCornerShape(20.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(
+                                text = item.notes,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(16.dp),
+                            )
+                        }
                     }
                 }
             }
 
             if (details.checklist.isNotEmpty()) {
                 item(key = "checklist-header") {
-                    SectionHeader(
-                        stringResource(
-                            R.string.checklist_progress,
-                            details.checklistDone,
-                            details.checklistTotal
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        SectionHeader(
+                            stringResource(
+                                R.string.checklist_progress,
+                                details.checklistDone,
+                                details.checklistTotal
+                            )
                         )
-                    )
-                    LinearProgressIndicator(
-                        progress = {
-                            if (details.checklistTotal == 0) 0f
-                            else details.checklistDone.toFloat() / details.checklistTotal
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(6.dp),
-                    )
+                        LinearProgressIndicator(
+                            progress = {
+                                if (details.checklistTotal == 0) 0f
+                                else details.checklistDone.toFloat() / details.checklistTotal
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(6.dp),
+                        )
+                    }
                 }
                 items(details.checklist.size, key = { "c-${details.checklist[it].id}" }) { index ->
                     val entry = details.checklist[index]
@@ -292,20 +298,22 @@ fun DetailScreen(
 
             if (details.reminders.isNotEmpty()) {
                 item(key = "reminders") {
-                    SectionHeader(stringResource(R.string.section_reminders))
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        details.reminders.forEach { reminder ->
-                            LabelValueRow(
-                                label = if (reminder.minutesBefore <= 0) {
-                                    stringResource(R.string.reminder_at_time)
-                                } else {
-                                    stringResource(
-                                        R.string.reminder_before,
-                                        TimeUtils.formatOffset(context, reminder.minutesBefore)
-                                    )
-                                },
-                                value = stringResource(reminderTypeLabel(reminder.type)),
-                            )
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        SectionHeader(stringResource(R.string.section_reminders))
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            details.reminders.forEach { reminder ->
+                                LabelValueRow(
+                                    label = if (reminder.minutesBefore <= 0) {
+                                        stringResource(R.string.reminder_at_time)
+                                    } else {
+                                        stringResource(
+                                            R.string.reminder_before,
+                                            TimeUtils.formatOffset(context, reminder.minutesBefore)
+                                        )
+                                    },
+                                    value = stringResource(reminderTypeLabel(reminder.type)),
+                                )
+                            }
                         }
                     }
                 }
@@ -313,44 +321,48 @@ fun DetailScreen(
 
             if (details.attachments.isNotEmpty()) {
                 item(key = "attachments") {
-                    SectionHeader(stringResource(R.string.section_attachments))
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        details.attachments.forEach { attachment ->
-                            OutlinedButton(
-                                onClick = {
-                                    runCatching {
-                                        context.startActivity(
-                                            Intent(
-                                                Intent.ACTION_VIEW,
-                                                android.net.Uri.parse(attachment.uri)
-                                            ).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        )
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                            ) { Text(attachment.name.ifBlank { attachment.uri }, maxLines = 1) }
+                        SectionHeader(stringResource(R.string.section_attachments))
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            details.attachments.forEach { attachment ->
+                                OutlinedButton(
+                                    onClick = {
+                                        runCatching {
+                                            context.startActivity(
+                                                Intent(
+                                                    Intent.ACTION_VIEW,
+                                                    android.net.Uri.parse(attachment.uri)
+                                                ).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                            )
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                ) { Text(attachment.name.ifBlank { attachment.uri }, maxLines = 1) }
+                            }
                         }
                     }
                 }
             }
 
             item(key = "actions") {
-                Spacer(Modifier.height(6.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Button(
-                        onClick = { viewModel.setCompleted(!item.completed) },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(
-                            stringResource(
-                                if (item.completed) R.string.action_undone else R.string.action_done
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Spacer(Modifier.height(6.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Button(
+                            onClick = { viewModel.setCompleted(!item.completed) },
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            Text(
+                                stringResource(
+                                    if (item.completed) R.string.action_undone else R.string.action_done
+                                )
                             )
-                        )
+                        }
+                        OutlinedButton(
+                            onClick = { onEdit(eventId) },
+                            modifier = Modifier.weight(1f),
+                        ) { Text(stringResource(R.string.action_edit)) }
                     }
-                    OutlinedButton(
-                        onClick = { onEdit(eventId) },
-                        modifier = Modifier.weight(1f),
-                    ) { Text(stringResource(R.string.action_edit)) }
                 }
             }
         }
