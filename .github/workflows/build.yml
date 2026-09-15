@@ -5,6 +5,9 @@ on:
     branches: ["**"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,3 +51,18 @@ jobs:
           path: |
             app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*.apk
+
+      - name: Publish release with installable APKs
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TAG="build-${GITHUB_RUN_NUMBER}"
+          mkdir -p dist
+          cp app/build/outputs/apk/release/app-release.apk "dist/foksi-${TAG}-release.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "dist/foksi-${TAG}-debug.apk"
+          gh release create "$TAG" dist/*.apk \
+            --title "Foksi $TAG" \
+            --notes "Сборка Foksi из ${GITHUB_SHA}. Для установки на телефон скачай foksi-${TAG}-release.apk." \
+            --target "$GITHUB_SHA"
