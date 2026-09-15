@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Foksi</string>
+
+    <!-- Navigation -->
+    <string name="nav_today">Today</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_tasks">Tasks</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_whats_next">What\'s next?</string>
+
+    <!-- Common -->
+    <string name="action_add">Add</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_open">Open</string>
+    <string name="action_done">Done</string>
+    <string name="action_undone">Reopen</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_search">Search</string>
+    <string name="action_snooze">Snooze</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_ok">OK</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_more">More</string>
+
+    <!-- Home -->
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_day">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_night">Good night</string>
+    <string name="home_next_title">Up next</string>
+    <string name="home_upcoming_title">Upcoming</string>
+    <string name="home_today_title">Today</string>
+    <string name="home_countdown_label">Time left</string>
+    <string name="home_empty_title">All quiet</string>
+    <string name="home_empty_subtitle">Add your first event so nothing important slips away.</string>
+    <string name="home_empty_action">+ Add event</string>
+    <string name="home_no_upcoming">Nothing upcoming yet</string>
+    <string name="home_overdue_title">Overdue</string>
+    <string name="home_progress">%1$d of %2$d done</string>
+
+    <!-- Date groups -->
+    <string name="group_overdue">Overdue</string>
+    <string name="group_today">Today</string>
+    <string name="group_tomorrow">Tomorrow</string>
+    <string name="group_this_week">This week</string>
+    <string name="group_next_week">Next week</string>
+    <string name="group_this_month">This month</string>
+    <string name="group_later">Later</string>
+    <string name="group_completed">Completed</string>
+    <string name="group_no_date">No date</string>
+
+    <!-- Countdown -->
+    <string name="countdown_now">now</string>
+    <string name="countdown_past">passed</string>
+    <plurals name="countdown_days">
+        <item quantity="one">in %d day</item>
+        <item quantity="other">in %d days</item>
+    </plurals>
+    <plurals name="countdown_hours">
+        <item quantity="one">in %d hour</item>
+        <item quantity="other">in %d hours</item>
+    </plurals>
+    <plurals name="countdown_minutes">
+        <item quantity="one">in %d minute</item>
+        <item quantity="other">in %d minutes</item>
+    </plurals>
+    <plurals name="countdown_weeks">
+        <item quantity="one">in %d week</item>
+        <item quantity="other">in %d weeks</item>
+    </plurals>
+    <plurals name="days_short">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <!-- Quick add -->
+    <string name="quick_add_title">What do you want to add?</string>
+    <string name="quick_add_event">Event</string>
+    <string name="quick_add_event_desc">Date, time, reminders</string>
+    <string name="quick_add_task">Task</string>
+    <string name="quick_add_task_desc">A thing to get done</string>
+    <string name="quick_add_note">Quick note</string>
+    <string name="quick_add_note_desc">Write it down in a second</string>
+    <string name="quick_note_hint">Call Ivan tomorrow morning</string>
+    <string name="quick_note_saved">Note saved</string>
+    <string name="quick_task_hint">What needs doing?</string>
+
+    <!-- Editor -->
+    <string name="editor_new_event">New event</string>
+    <string name="editor_new_task">New task</string>
+    <string name="editor_new_note">New note</string>
+    <string name="editor_edit_event">Edit event</string>
+    <string name="editor_edit_task">Edit task</string>
+    <string name="editor_edit_note">Edit note</string>
+    <string name="field_title">Title</string>
+    <string name="field_title_hint">Interview at Security Company</string>
+    <string name="field_description">Description</string>
+    <string name="field_notes">Notes</string>
+    <string name="field_notes_hint">Prepare CV, review Linux, Kubernetes questions…</string>
+    <string name="field_date">Date</string>
+    <string name="field_time">Time</string>
+    <string name="field_duration">Duration</string>
+    <string name="field_location">Location</string>
+    <string name="field_location_hint">Office or meeting room</string>
+    <string name="field_url">Link</string>
+    <string name="field_url_hint">https://…</string>
+    <string name="field_category">Category</string>
+    <string name="field_color">Color</string>
+    <string name="field_priority">Priority</string>
+    <string name="field_all_day">All day</string>
+    <string name="field_has_date">Has a date</string>
+    <string name="section_reminders">Reminders</string>
+    <string name="section_advance">Remind me in advance</string>
+    <string name="section_checklist">Checklist</string>
+    <string name="section_attachments">Attachments</string>
+    <string name="section_repeat">Repeat</string>
+    <string name="section_basics">Basics</string>
+    <string name="section_details">Details</string>
+    <string name="title_required">A title is required</string>
+    <string name="saved">Saved</string>
+    <string name="deleted">Deleted</string>
+    <string name="duplicated">Duplicated</string>
+
+    <!-- Duration -->
+    <string name="duration_minutes">%d min</string>
+    <string name="duration_hours">%d h</string>
+    <string name="duration_hours_minutes">%1$d h %2$d min</string>
+
+    <!-- Priority -->
+    <string name="priority_normal">Normal</string>
+    <string name="priority_important">Important</string>
+    <string name="priority_critical">Very important</string>
+
+    <!-- Item type -->
+    <string name="type_event">Event</string>
+    <string name="type_task">Task</string>
+    <string name="type_note">Note</string>
+
+    <!-- Categories -->
+    <string name="category_work">Work</string>
+    <string name="category_study">Study</string>
+    <string name="category_personal">Personal</string>
+    <string name="category_meetings">Meetings</string>
+    <string name="category_important">Important</string>
+    <string name="category_other">Other</string>
+    <string name="category_none">No category</string>
+    <string name="category_new">New category</string>
+    <string name="category_name">Category name</string>
+    <string name="categories_title">Categories</string>
+
+    <!-- Reminders -->
+    <string name="reminder_add">Add reminder</string>
+    <string name="reminder_at_time">At the time of the event</string>
+    <string name="reminder_custom">Custom…</string>
+    <string name="reminder_before">%s before</string>
+    <string name="reminder_type_normal">Normal</string>
+    <string name="reminder_type_important">Important</string>
+    <string name="reminder_type_alarm">Alarm</string>
+    <string name="reminder_type">Notification type</string>
+    <string name="reminder_repeat_until_ack">Repeat until confirmed</string>
+    <string name="reminder_repeat_every">Every %d min</string>
+    <string name="reminder_repeat_times">up to %d times</string>
+    <string name="reminder_none">No reminders yet</string>
+    <string name="reminder_5m">5 minutes</string>
+    <string name="reminder_10m">10 minutes</string>
+    <string name="reminder_15m">15 minutes</string>
+    <string name="reminder_30m">30 minutes</string>
+    <string name="reminder_1h">1 hour</string>
+    <string name="reminder_2h">2 hours</string>
+    <string name="reminder_3h">3 hours</string>
+    <string name="reminder_6h">6 hours</string>
+    <string name="reminder_12h">12 hours</string>
+    <string name="reminder_1d">1 day</string>
+    <string name="reminder_2d">2 days</string>
+    <string name="reminder_3d">3 days</string>
+    <string name="reminder_1w">1 week</string>
+    <string name="reminder_2w">2 weeks</string>
+    <string name="custom_minutes_before">Minutes before</string>
+
+    <!-- Advance / smart reminders -->
+    <string name="advance_enable">Remind me ahead of time</string>
+    <string name="advance_explainer">Foksi will nudge you in the days leading up to this event so you have time to prepare.</string>
+    <string name="advance_start">Start reminding</string>
+    <string name="advance_start_value">%s before</string>
+    <string name="advance_mode">Mode</string>
+    <string name="advance_mode_chain">Preparation chain</string>
+    <string name="advance_mode_chain_desc">14 days → 7 → 3 → 1 day → 3 h → 30 min</string>
+    <string name="advance_mode_interval">Every N days</string>
+    <string name="advance_mode_random">Random reminders</string>
+    <string name="advance_interval_days">Interval, days</string>
+    <string name="advance_per_week">Reminders per week</string>
+    <string name="advance_window">Allowed hours</string>
+    <string name="advance_window_value">%1$s – %2$s</string>
+    <string name="advance_workdays_only">Weekdays only</string>
+    <string name="advance_preview">Preview</string>
+    <string name="advance_preview_empty">No advance reminders planned</string>
+    <string name="advance_chain_editable">Tap a step to switch it off</string>
+    <string name="advance_checklist_nudge">Remind me if the checklist is not finished</string>
+
+    <!-- Repeat -->
+    <string name="repeat_none">Does not repeat</string>
+    <string name="repeat_daily">Every day</string>
+    <string name="repeat_weekly">Every week</string>
+    <string name="repeat_monthly">Every month</string>
+    <string name="repeat_yearly">Every year</string>
+    <string name="repeat_custom">Custom</string>
+    <string name="repeat_every_n_days">Every %d days</string>
+    <string name="repeat_every_n_weeks">Every %d weeks</string>
+    <string name="repeat_interval">Interval</string>
+    <string name="repeat_weekdays">Days of week</string>
+    <string name="repeat_until">Repeat until</string>
+    <string name="repeat_forever">No end date</string>
+
+    <!-- Checklist -->
+    <string name="checklist_add">Add item</string>
+    <string name="checklist_hint">New checklist item</string>
+    <string name="checklist_progress">%1$d / %2$d done</string>
+    <string name="checklist_move_up">Move up</string>
+    <string name="checklist_move_down">Move down</string>
+
+    <!-- Attachments -->
+    <string name="attachment_add_file">Attach file</string>
+    <string name="attachment_add_link">Add link</string>
+    <string name="attachment_link_hint">https://meet.example.com/interview</string>
+    <string name="attachment_open_failed">Cannot open this attachment</string>
+    <string name="attachment_name">Name</string>
+
+    <!-- Detail -->
+    <string name="detail_status">Status</string>
+    <string name="detail_status_active">Active</string>
+    <string name="detail_status_done">Completed</string>
+    <string name="detail_status_overdue">Overdue</string>
+    <string name="detail_reminders_count">%d reminders</string>
+    <string name="detail_next_reminder">Next reminder: %s</string>
+    <string name="detail_no_next_reminder">No reminders planned</string>
+    <string name="detail_delete_confirm">Delete this item?</string>
+    <string name="detail_delete_confirm_text">This cannot be undone.</string>
+
+    <!-- Calendar -->
+    <string name="calendar_month">Month</string>
+    <string name="calendar_week">Week</string>
+    <string name="calendar_day">Day</string>
+    <string name="calendar_agenda">List</string>
+    <string name="calendar_today">Today</string>
+    <string name="calendar_no_events">Nothing on this day</string>
+    <string name="calendar_prev">Previous</string>
+    <string name="calendar_next">Next</string>
+
+    <!-- Search and filters -->
+    <string name="search_hint">Search events, tasks, notes</string>
+    <string name="search_empty">Nothing found</string>
+    <string name="search_start">Type to search across everything</string>
+    <string name="filter_all">All</string>
+    <string name="filter_today">Today</string>
+    <string name="filter_tomorrow">Tomorrow</string>
+    <string name="filter_week">This week</string>
+    <string name="filter_important">Important</string>
+    <string name="filter_overdue">Overdue</string>
+    <string name="filter_completed">Completed</string>
+    <string name="filter_with_notes">With notes</string>
+    <string name="filter_category">Category</string>
+    <string name="filters">Filters</string>
+
+    <!-- Tasks -->
+    <string name="tasks_title">Tasks &amp; notes</string>
+    <string name="tasks_empty">No tasks yet</string>
+    <string name="tasks_notes">Notes</string>
+    <string name="tasks_open">Open</string>
+    <string name="tasks_done">Done</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_1_title">Write it down once</string>
+    <string name="onboarding_1_text">Create events, tasks and quick notes in a couple of taps. No account, everything stays on your device.</string>
+    <string name="onboarding_2_title">Foksi reminds you early</string>
+    <string name="onboarding_2_text">Pick reminders for every event — a week ahead, three days, an hour, or an alarm you cannot sleep through.</string>
+    <string name="onboarding_3_title">Always in sight</string>
+    <string name="onboarding_3_text">Put a widget on your home screen and keep the countdown to what matters in front of you.</string>
+
+    <!-- Settings -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_palette">Color scheme</string>
+    <string name="palette_ubuntu">Ubuntu</string>
+    <string name="palette_lavender">Lavender</string>
+    <string name="palette_mint">Mint</string>
+    <string name="palette_sky">Sky</string>
+    <string name="palette_rose">Rose</string>
+    <string name="settings_text_size">Text size</string>
+    <string name="text_size_small">Small</string>
+    <string name="text_size_normal">Normal</string>
+    <string name="text_size_large">Large</string>
+    <string name="text_size_huge">Extra large</string>
+
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_enabled">Notifications on</string>
+    <string name="settings_normal_enabled">Normal notifications</string>
+    <string name="settings_important_enabled">Important notifications</string>
+    <string name="settings_alarms_enabled">Alarms</string>
+    <string name="settings_sound">Sound</string>
+    <string name="settings_vibration">Vibration</string>
+    <string name="settings_lockscreen">Show on the lock screen</string>
+    <string name="settings_quiet_hours">Quiet hours</string>
+    <string name="settings_quiet_from">From</string>
+    <string name="settings_quiet_to">To</string>
+    <string name="settings_quiet_allow_important">Allow important notifications</string>
+    <string name="settings_quiet_allow_alarms">Allow alarms</string>
+    <string name="settings_advance_default">Advance reminders by default</string>
+    <string name="settings_advance_per_week">Extra reminders per week</string>
+    <string name="settings_min_gap">Minimum gap between reminders</string>
+    <string name="settings_min_gap_value">%d h</string>
+    <string name="settings_notification_sound">Notification sound</string>
+    <string name="settings_alarm_sound">Alarm sound</string>
+    <string name="sound_system_default">System default</string>
+    <string name="sound_pick">Choose sound…</string>
+
+    <string name="settings_calendar">Calendar</string>
+    <string name="settings_first_day">First day of week</string>
+    <string name="settings_time_format">Time format</string>
+    <string name="time_format_24">24 hours</string>
+    <string name="time_format_12">12 hours</string>
+    <string name="settings_default_duration">Default event length</string>
+
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_widget_count">Events in a widget</string>
+    <string name="settings_widget_notes">Show notes</string>
+    <string name="settings_widget_completed">Show completed</string>
+    <string name="settings_widget_countdown">Show countdown</string>
+
+    <string name="settings_data">Data</string>
+    <string name="settings_export_json">Export to JSON</string>
+    <string name="settings_export_ics">Export to ICS</string>
+    <string name="settings_import">Import (JSON or ICS)</string>
+    <string name="settings_backup">Create backup</string>
+    <string name="settings_restore">Restore from backup</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version %s</string>
+    <string name="settings_about_text">Foksi keeps your plans on your device. No account, no cloud, no tracking.</string>
+
+    <string name="export_success">Exported %d items</string>
+    <string name="export_failed">Export failed</string>
+    <string name="import_success">Imported %d items</string>
+    <string name="import_failed">Import failed — the file could not be read</string>
+    <string name="backup_success">Backup created</string>
+    <string name="restore_success">Backup restored</string>
+
+    <!-- Permission status -->
+    <string name="status_ok">Reminders are active</string>
+    <string name="status_exact_alarm">Android needs permission for exact alarms</string>
+    <string name="status_notifications_off">Notifications are turned off in Android settings</string>
+    <string name="status_battery">Battery optimisation may delay reminders</string>
+    <string name="status_app_disabled">Notifications are switched off inside Foksi</string>
+    <string name="status_fix">Fix</string>
+    <string name="permission_rationale">Foksi needs the notification permission to remind you about your events.</string>
+    <string name="permission_grant">Allow</string>
+
+    <!-- Notifications -->
+    <string name="channel_normal_name">Reminders</string>
+    <string name="channel_normal_desc">Regular event and task reminders</string>
+    <string name="channel_important_name">Important reminders</string>
+    <string name="channel_important_desc">Reminders for events you marked important</string>
+    <string name="channel_alarm_name">Alarms</string>
+    <string name="channel_alarm_desc">Loud alarm-style reminders</string>
+    <string name="channel_advance_name">Advance reminders</string>
+    <string name="channel_advance_desc">Gentle nudges about events that are still ahead</string>
+
+    <string name="notif_action_open">Open</string>
+    <string name="notif_action_snooze">Snooze</string>
+    <string name="notif_action_done">Done</string>
+    <string name="notif_action_dismiss">Dismiss</string>
+    <string name="notif_starts_at">%s</string>
+    <string name="notif_checklist_left">%d checklist items still open</string>
+    <string name="notif_snoozed_until">Snoozed until %s</string>
+
+    <string name="msg_now">%s starts now</string>
+    <string name="msg_in_minutes">%1$s in %2$d min</string>
+    <string name="msg_in_hours">%1$s in %2$d h</string>
+    <string name="msg_tomorrow">%s is tomorrow</string>
+    <plurals name="msg_in_days">
+        <item quantity="one">%1$s in %2$d day</item>
+        <item quantity="other">%1$s in %2$d days</item>
+    </plurals>
+    <plurals name="msg_advance_days">
+        <item quantity="one">%2$d day until %1$s — time to get ready</item>
+        <item quantity="other">%2$d days until %1$s — time to get ready</item>
+    </plurals>
+    <string name="msg_week">%s is one week away</string>
+    <string name="msg_two_weeks">%s is two weeks away</string>
+
+    <!-- Snooze -->
+    <string name="snooze_title">Snooze until…</string>
+    <string name="snooze_5m">5 minutes</string>
+    <string name="snooze_10m">10 minutes</string>
+    <string name="snooze_30m">30 minutes</string>
+    <string name="snooze_1h">1 hour</string>
+    <string name="snooze_2h">2 hours</string>
+    <string name="snooze_tonight">Tonight</string>
+    <string name="snooze_tomorrow">Tomorrow morning</string>
+    <string name="snooze_pick">Pick date and time</string>
+
+    <!-- Alarm screen -->
+    <string name="alarm_open_event">Open event</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_confirm">Got it</string>
+
+    <!-- Widgets -->
+    <string name="widget_next_label">Foksi · Up next</string>
+    <string name="widget_upcoming_label">Foksi · Upcoming</string>
+    <string name="widget_overview_label">Foksi · Overview</string>
+    <string name="widget_empty">Nothing planned</string>
+    <string name="widget_add">Add</string>
+    <string name="widget_notes_title">Notes</string>
+    <string name="widget_tasks_title">Tasks</string>
+    <string name="widget_refresh">Refresh</string>
+
+    <!-- Accessibility -->
+    <string name="cd_add_button">Add event, task or note</string>
+    <string name="cd_open_search">Open search</string>
+    <string name="cd_back">Go back</string>
+    <string name="cd_toggle_done">Toggle completed</string>
+    <string name="cd_remove">Remove</string>
+    <string name="cd_priority_icon">Priority marker</string>
+    <string name="cd_widget_open">Open Foksi</string>
+</resources>
