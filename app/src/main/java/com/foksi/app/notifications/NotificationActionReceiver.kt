@@ -24,12 +24,14 @@ class NotificationActionReceiver : BroadcastReceiver() {
             try {
                 when (action) {
                     Extras.ACTION_DONE -> {
+                        AlarmService.stop(context)
                         AlarmSoundPlayer.stop()
                         if (eventId > 0) AppGraph.planInteractor.setCompleted(eventId, true)
                         AppGraph.notifier.cancel(notificationId)
                     }
 
                     Extras.ACTION_SNOOZE -> {
+                        AlarmService.stop(context)
                         AlarmSoundPlayer.stop()
                         val scheduled = if (scheduleId > 0) AppGraph.planRepository.getScheduled(scheduleId) else null
                         val occurrence = scheduled?.occurrenceStart
@@ -45,6 +47,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
                     }
 
                     Extras.ACTION_DISMISS, Extras.ACTION_ALARM_STOP -> {
+                        AlarmService.stop(context)
                         AlarmSoundPlayer.stop()
                         AppGraph.notifier.cancel(notificationId)
                     }

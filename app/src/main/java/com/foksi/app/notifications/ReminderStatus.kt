@@ -35,6 +35,13 @@ object ReminderStatusChecker {
                 appNotificationSettings(context)
             )
         }
+        if (needsExactAlarm && !canUseFullScreenIntent(context)) {
+            return ReminderStatus(
+                ReminderStatusLevel.WARNING,
+                R.string.status_full_screen,
+                fullScreenIntentSettings(context)
+            )
+        }
         if (needsExactAlarm && !AppGraph.scheduler.canScheduleExact()) {
             return ReminderStatus(
                 ReminderStatusLevel.WARNING,
@@ -51,6 +58,23 @@ object ReminderStatusChecker {
         }
         return ReminderStatus(ReminderStatusLevel.OK, R.string.status_ok, null)
     }
+
+    /** Android 14 gates the alarm-style full-screen screen behind its own permission. */
+    fun canUseFullScreenIntent(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return true
+        val manager = context.getSystemService<android.app.NotificationManager>() ?: return true
+        return runCatching { manager.canUseFullScreenIntent() }.getOrDefault(true)
+    }
+
+    fun fullScreenIntentSettings(context: Context): Intent? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            Intent(
+                Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT,
+                Uri.parse("package:${context.packageName}")
+            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } else {
+            null
+        }
 
     private fun ignoresBatteryOptimisation(context: Context): Boolean {
         val power = context.getSystemService<PowerManager>() ?: return true

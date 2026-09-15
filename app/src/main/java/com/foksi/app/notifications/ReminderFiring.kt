@@ -65,7 +65,14 @@ object ReminderFiring {
             return
         }
 
-        AppGraph.notifier.post(scheduled, details, settings, openChecklist)
+        // An alarm-type reminder is handed to a foreground service so it can hold the CPU awake,
+        // keep ringing and put the alarm screen over the lock screen. Everything else is a plain
+        // notification.
+        val ringingAsAlarm = scheduled.type == ReminderType.ALARM &&
+            AlarmService.start(context, scheduled.id)
+        if (!ringingAsAlarm) {
+            AppGraph.notifier.post(scheduled, details, settings, openChecklist)
+        }
         repository.markFired(scheduleId)
 
         scheduleFollowUpIfNeeded(scheduled, details.reminders)

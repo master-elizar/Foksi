@@ -44,11 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foksi.app.R
 import com.foksi.app.core.TimeUtils
 import com.foksi.app.domain.logic.Agenda
+import com.foksi.app.domain.logic.Birthdays
 import com.foksi.app.domain.model.ItemType
 import com.foksi.app.domain.model.Priority
 import com.foksi.app.domain.model.ReminderType
@@ -134,6 +136,8 @@ fun DetailScreen(
                             text = item.title,
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.SemiBold,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 4,
                         )
                         if (start != null) {
                             Spacer(Modifier.height(6.dp))
@@ -147,6 +151,8 @@ fun DetailScreen(
                                 text = TimeUtils.formatCountdown(context, start),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.SemiBold,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                     }
@@ -182,11 +188,27 @@ fun DetailScreen(
                                 else -> stringResource(R.string.detail_status_active)
                             }
                         )
-                        LabelValueRow(
-                            stringResource(R.string.field_priority),
-                            stringResource(priorityLabel(item.priority))
-                        )
-                        if (item.durationMinutes > 0 && item.type == ItemType.EVENT) {
+                        if (item.isBirthday) {
+                            val birth = item.startAt
+                            if (birth != null && item.birthYearKnown) {
+                                LabelValueRow(
+                                    stringResource(R.string.field_birth_date),
+                                    TimeUtils.formatFullDate(context, birth)
+                                )
+                            }
+                            Birthdays.ageTurning(item)?.let { age ->
+                                LabelValueRow(
+                                    stringResource(R.string.birthdays_title),
+                                    stringResource(R.string.birthdays_turns, age)
+                                )
+                            }
+                        } else {
+                            LabelValueRow(
+                                stringResource(R.string.field_priority),
+                                stringResource(priorityLabel(item.priority))
+                            )
+                        }
+                        if (item.durationMinutes > 0 && item.type == ItemType.EVENT && !item.isBirthday) {
                             LabelValueRow(
                                 stringResource(R.string.field_duration),
                                 TimeUtils.formatDuration(context, item.durationMinutes)
@@ -395,6 +417,7 @@ private fun typeLabel(type: ItemType?): String = stringResource(
     when (type) {
         ItemType.TASK -> R.string.type_task
         ItemType.NOTE -> R.string.type_note
+        ItemType.BIRTHDAY -> R.string.type_birthday
         else -> R.string.type_event
     }
 )

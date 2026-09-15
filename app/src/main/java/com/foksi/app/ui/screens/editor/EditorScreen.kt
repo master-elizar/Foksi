@@ -90,6 +90,7 @@ fun EditorScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val item = state.details.item
+    val isBirthday = item.type == ItemType.BIRTHDAY
 
     var showDate by remember { mutableStateOf(false) }
     var showTime by remember { mutableStateOf(false) }
@@ -155,7 +156,9 @@ fun EditorScreen(
                                 selected = item.type == type,
                                 onClick = {
                                     viewModel.setType(type)
-                                    viewModel.setHasDate(type == ItemType.EVENT)
+                                    viewModel.setHasDate(
+                                        type == ItemType.EVENT || type == ItemType.BIRTHDAY
+                                    )
                                 },
                                 label = { Text(stringResource(labelRes)) },
                                 shape = RoundedCornerShape(16.dp),
@@ -169,8 +172,21 @@ fun EditorScreen(
                 OutlinedTextField(
                     value = item.title,
                     onValueChange = viewModel::setTitle,
-                    label = { Text(stringResource(R.string.field_title)) },
-                    placeholder = { Text(stringResource(R.string.field_title_hint)) },
+                    label = {
+                        Text(
+                            stringResource(
+                                if (isBirthday) R.string.field_person else R.string.field_title
+                            )
+                        )
+                    },
+                    placeholder = {
+                        Text(
+                            stringResource(
+                                if (isBirthday) R.string.field_person_hint
+                                else R.string.field_title_hint
+                            )
+                        )
+                    },
                     isError = state.errorRes != null,
                     supportingText = { state.errorRes?.let { Text(stringResource(it)) } },
                     modifier = Modifier.fillMaxWidth(),
@@ -181,6 +197,46 @@ fun EditorScreen(
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     SectionHeader(stringResource(R.string.section_basics))
                     EditorCard {
+                        if (isBirthday) {
+                            val birth = item.startAt ?: TimeUtils.now()
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = stringResource(R.string.field_birth_date),
+                                    modifier = Modifier.weight(1f),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                AssistChip(
+                                    onClick = { showDate = true },
+                                    label = {
+                                        Text(
+                                            if (item.birthYearKnown) {
+                                                TimeUtils.formatFullDate(context, birth)
+                                            } else {
+                                                TimeUtils.formatDate(context, birth)
+                                            }
+                                        )
+                                    },
+                                )
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = stringResource(R.string.field_birth_year_known),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.field_birth_year_hint),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                                Switch(
+                                    checked = item.birthYearKnown,
+                                    onCheckedChange = viewModel::setBirthYearKnown,
+                                )
+                            }
+                            return@EditorCard
+                        }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = stringResource(R.string.field_has_date),
@@ -317,6 +373,7 @@ fun EditorScreen(
 
             item(key = "text") {
                 EditorCard {
+                    if (!isBirthday) {
                     OutlinedTextField(
                         value = item.location,
                         onValueChange = viewModel::setLocation,
@@ -340,6 +397,7 @@ fun EditorScreen(
                         minLines = 2,
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    }
                     OutlinedTextField(
                         value = item.notes,
                         onValueChange = viewModel::setNotes,
@@ -362,6 +420,7 @@ fun EditorScreen(
                         )
                     }
                 }
+                if (!isBirthday) {
                 item(key = "advance") {
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         AdvanceSection(
@@ -375,6 +434,7 @@ fun EditorScreen(
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         RepeatSection(rule = item.repeat, onChange = viewModel::setRepeat)
                     }
+                }
                 }
             }
 
@@ -517,6 +577,8 @@ private fun TextInputDialog(
 @Composable
 private fun screenTitle(isNew: Boolean, type: ItemType): String = stringResource(
     when {
+        isNew && type == ItemType.BIRTHDAY -> R.string.editor_new_birthday
+        !isNew && type == ItemType.BIRTHDAY -> R.string.editor_edit_birthday
         isNew && type == ItemType.TASK -> R.string.editor_new_task
         isNew && type == ItemType.NOTE -> R.string.editor_new_note
         isNew -> R.string.editor_new_event
@@ -530,4 +592,5 @@ private fun typeEntries(): List<Pair<ItemType, Int>> = listOf(
     ItemType.EVENT to R.string.type_event,
     ItemType.TASK to R.string.type_task,
     ItemType.NOTE to R.string.type_note,
+    ItemType.BIRTHDAY to R.string.type_birthday,
 )

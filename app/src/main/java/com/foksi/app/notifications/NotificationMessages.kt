@@ -20,9 +20,17 @@ object NotificationMessages {
         now: Long = TimeUtils.now(),
     ): String {
         if (kind == NotificationKind.MAIN || kind == NotificationKind.SNOOZE || kind == NotificationKind.REPEAT) {
-            return item.title
+            val sameDay = TimeUtils.isSameDay(now, occurrenceStart)
+            return if (item.isBirthday && sameDay) {
+                context.getString(R.string.msg_birthday_today, item.title)
+            } else {
+                item.title
+            }
         }
         val days = TimeUtils.daysBetween(now, occurrenceStart).toInt()
+        if (item.isBirthday && days <= 0) {
+            return context.getString(R.string.msg_birthday_today, item.title)
+        }
         return when {
             days >= 14 -> context.getString(R.string.msg_two_weeks, item.title)
             days == 7 -> context.getString(R.string.msg_week, item.title)

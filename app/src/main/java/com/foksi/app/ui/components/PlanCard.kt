@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.NotificationsActive
@@ -36,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -125,6 +128,7 @@ fun PlanCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    if (item.type == ItemType.BIRTHDAY) BadgeIcon(Icons.Outlined.Cake)
                     if (details.reminders.any { it.enabled }) {
                         BadgeIcon(Icons.Outlined.NotificationsActive)
                     }
@@ -144,15 +148,22 @@ fun PlanCard(
 
             Spacer(Modifier.width(8.dp))
 
-            if (item.type == ItemType.EVENT && start != null && !item.completed) {
-                Box(contentAlignment = Alignment.Center) {
+            val showsCountdown = start != null && !item.completed &&
+                (item.type == ItemType.EVENT || item.type == ItemType.BIRTHDAY)
+            if (showsCountdown && start != null) {
+                Box(
+                    contentAlignment = Alignment.CenterEnd,
+                    // Bounded rather than fixed: "через 3 недели" needs more room than "завтра",
+                    // and the title keeps whatever is left instead of being squeezed to nothing.
+                    modifier = Modifier.widthIn(min = 56.dp, max = 108.dp),
+                ) {
                     Text(
                         text = TimeUtils.formatCountdown(context, start, now),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.width(96.dp),
+                        textAlign = TextAlign.End,
                     )
                 }
             } else if (item.type != ItemType.NOTE) {

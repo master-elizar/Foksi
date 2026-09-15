@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foksi.app.R
@@ -83,11 +84,15 @@ fun HomeScreen(
                             text = TimeUtils.formatWeekdayDate(context, state.now),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
                             text = greeting(state.now),
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     IconButton(onClick = onOpenSearch) {
@@ -228,12 +233,16 @@ fun NextUpCard(
                 text = details.item.title,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
             if (start != null) {
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text = TimeUtils.formatDateTime(context, start, state.settings.use24h),
                     style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Spacer(Modifier.height(14.dp))
                 Row(verticalAlignment = Alignment.Bottom) {
@@ -244,12 +253,16 @@ fun NextUpCard(
                         )
                         Text(
                             text = TimeUtils.formatCountdown(context, start, state.now),
-                            style = MaterialTheme.typography.headlineMedium,
+                            style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.SemiBold,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     Spacer(Modifier.width(8.dp))
-                    TextButton(onClick = onClick) { Text(stringResource(R.string.action_open)) }
+                    TextButton(onClick = onClick) {
+                        Text(stringResource(R.string.action_open), maxLines = 1)
+                    }
                 }
             }
             if (details.checklist.isNotEmpty()) {

@@ -56,6 +56,7 @@ data class EventEntity(
     val completedAt: Long? = null,
     @Embedded(prefix = "rep_") val repeat: RepeatEmbedded = RepeatEmbedded(),
     @Embedded(prefix = "adv_") val advance: AdvanceEmbedded = AdvanceEmbedded(),
+    val birthYearKnown: Boolean = true,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
 )

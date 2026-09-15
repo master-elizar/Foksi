@@ -35,6 +35,9 @@ class PlanRepository(private val db: FoksiDatabase) {
     fun search(query: String): Flow<List<PlanItemDetails>> =
         events.search(query).map { list -> list.map { it.toDomain() } }
 
+    fun observeBirthdays(): Flow<List<PlanItemDetails>> =
+        events.observeBirthdays().map { list -> list.map { it.toDomain() } }
+
     fun observeCategories(): Flow<List<Category>> =
         categories.observeAll().map { list -> list.map { it.toDomain() } }
 
@@ -80,8 +83,21 @@ class PlanRepository(private val db: FoksiDatabase) {
         id
     }
 
-    suspend fun quickCreate(type: ItemType, title: String, notes: String = ""): Long =
-        save(PlanItemDetails(item = PlanItem(type = type, title = title, notes = notes)))
+    suspend fun quickCreate(
+        type: ItemType,
+        title: String,
+        body: String = "",
+    ): Long = save(
+        PlanItemDetails(
+            item = PlanItem(
+                type = type,
+                title = title,
+                // A note keeps its body as notes; a task keeps it as the description.
+                notes = if (type == ItemType.NOTE) body else "",
+                description = if (type == ItemType.NOTE) "" else body,
+            )
+        )
+    )
 
     suspend fun delete(id: Long) = db.withTransaction {
         schedule.deleteAllForEvent(id)

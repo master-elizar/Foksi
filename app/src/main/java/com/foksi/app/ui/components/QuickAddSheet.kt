@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.EditNote
@@ -51,11 +52,13 @@ private enum class QuickAddMode { MENU, NOTE, TASK }
 fun QuickAddSheet(
     onDismiss: () -> Unit,
     onCreateEvent: () -> Unit,
-    onQuickSave: (ItemType, String) -> Unit,
+    onCreateBirthday: () -> Unit,
+    onQuickSave: (ItemType, String, String) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var mode by remember { mutableStateOf(QuickAddMode.MENU) }
     var text by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
 
     ModalBottomSheet(
@@ -97,11 +100,18 @@ fun QuickAddSheet(
                         subtitle = stringResource(R.string.quick_add_note_desc),
                         onClick = { mode = QuickAddMode.NOTE },
                     )
+                    QuickAddRow(
+                        icon = Icons.Outlined.Cake,
+                        title = stringResource(R.string.quick_add_birthday),
+                        subtitle = stringResource(R.string.quick_add_birthday_desc),
+                        onClick = onCreateBirthday,
+                    )
                 }
 
                 else -> {
                     val isNote = mode == QuickAddMode.NOTE
-                    LaunchedEffect(mode) { focusRequester.requestFocus() }
+                    val type = if (isNote) ItemType.NOTE else ItemType.TASK
+                    LaunchedEffect(mode) { runCatching { focusRequester.requestFocus() } }
                     OutlinedTextField(
                         value = text,
                         onValueChange = { text = it },
@@ -114,22 +124,37 @@ fun QuickAddSheet(
                         },
                         singleLine = !isNote,
                         minLines = if (isNote) 3 else 1,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = if (isNote) ImeAction.Done else ImeAction.Next
+                        ),
                         keyboardActions = KeyboardActions(onDone = {
-                            if (text.isNotBlank()) {
-                                onQuickSave(if (isNote) ItemType.NOTE else ItemType.TASK, text)
-                            }
+                            if (text.isNotBlank()) onQuickSave(type, text, description)
                         }),
                         modifier = Modifier
                             .fillMaxWidth()
                             .focusRequester(focusRequester),
                     )
+                    if (!isNote) {
+                        Spacer(Modifier.height(8.dp))
+                        // A task deserves a place for the details, not just a one-line title.
+                        OutlinedTextField(
+                            value = description,
+                            onValueChange = { description = it },
+                            placeholder = {
+                                Text(stringResource(R.string.quick_task_description_hint))
+                            },
+                            minLines = 3,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = {
+                                if (text.isNotBlank()) onQuickSave(type, text, description)
+                            }),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                     Spacer(Modifier.height(4.dp))
                     Button(
                         onClick = {
-                            if (text.isNotBlank()) {
-                                onQuickSave(if (isNote) ItemType.NOTE else ItemType.TASK, text)
-                            }
+                            if (text.isNotBlank()) onQuickSave(type, text, description)
                         },
                         enabled = text.isNotBlank(),
                         modifier = Modifier.fillMaxWidth(),

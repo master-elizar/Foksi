@@ -360,6 +360,7 @@
     <string name="status_ok">Reminders are active</string>
     <string name="status_exact_alarm">Android needs permission for exact alarms</string>
     <string name="status_notifications_off">Notifications are turned off in Android settings</string>
+    <string name="status_full_screen">Android needs permission to show the alarm screen</string>
     <string name="status_battery">Battery optimisation may delay reminders</string>
     <string name="status_app_disabled">Notifications are switched off inside Foksi</string>
     <string name="status_fix">Fix</string>
@@ -433,4 +434,35 @@
     <string name="cd_remove">Remove</string>
     <string name="cd_priority_icon">Priority marker</string>
     <string name="cd_widget_open">Open Foksi</string>
+
+    <!-- Birthdays -->
+    <string name="nav_birthdays">Birthdays</string>
+    <string name="birthdays_title">Birthdays</string>
+    <string name="birthdays_count">%d saved</string>
+    <string name="birthdays_nearest">Coming up</string>
+    <string name="birthdays_today">Today</string>
+    <string name="birthdays_this_month">Within a month</string>
+    <string name="birthdays_later">Later in the year</string>
+    <string name="birthdays_today_label">Today! 🎉</string>
+    <string name="birthdays_today_short">today</string>
+    <string name="birthdays_turns">turns %d</string>
+    <string name="birthdays_empty_title">No birthdays yet</string>
+    <string name="birthdays_empty_subtitle">Add the people you never want to forget — Foksi will remind you a week ahead and on the day.</string>
+    <string name="birthdays_add">+ Add a birthday</string>
+    <string name="type_birthday">Birthday</string>
+    <string name="editor_new_birthday">New birthday</string>
+    <string name="editor_edit_birthday">Edit birthday</string>
+    <string name="field_person">Name</string>
+    <string name="field_person_hint">Ivan Petrov</string>
+    <string name="field_birth_date">Date of birth</string>
+    <string name="field_birth_year_known">I know the birth year</string>
+    <string name="field_birth_year_hint">Without the year Foksi will not show the age</string>
+    <string name="quick_add_birthday">Birthday</string>
+    <string name="quick_add_birthday_desc">A person and a date</string>
+    <string name="quick_task_description_hint">Description (optional)</string>
+    <plurals name="birthdays_age">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+    <string name="msg_birthday_today">%s has a birthday today 🎉</string>
 </resources>

@@ -32,8 +32,8 @@ class PlanInteractor(
         return id
     }
 
-    suspend fun quickTask(text: String): Long {
-        val id = repository.quickCreate(ItemType.TASK, text.trim())
+    suspend fun quickTask(text: String, description: String = ""): Long {
+        val id = repository.quickCreate(ItemType.TASK, text.trim(), description.trim())
         WidgetUpdater.requestUpdate(context)
         return id
     }

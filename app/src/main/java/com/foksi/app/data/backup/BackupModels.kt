@@ -23,6 +23,7 @@ data class BackupItem(
     val priority: String = "NORMAL",
     val colorArgb: Int? = null,
     val completed: Boolean = false,
+    val birthYearKnown: Boolean = true,
     val categoryName: String? = null,
     val repeatMode: String = "NONE",
     val repeatInterval: Int = 1,

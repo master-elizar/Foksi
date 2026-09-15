@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.foksi.app.MainActivity
@@ -13,7 +12,6 @@ import com.foksi.app.core.TimeUtils
 import com.foksi.app.domain.model.AppSettings
 import com.foksi.app.domain.model.NotificationKind
 import com.foksi.app.domain.model.PlanItemDetails
-import com.foksi.app.domain.model.Priority
 import com.foksi.app.domain.model.ReminderType
 import com.foksi.app.domain.model.ScheduledNotification
 
@@ -24,17 +22,40 @@ class Notifier(private val context: Context) {
 
     fun areNotificationsEnabled(): Boolean = manager.areNotificationsEnabled()
 
+    /**
+     * Alarms share one notification id with [AlarmService] so that its action buttons always
+     * dismiss the alarm that is actually ringing.
+     */
+    fun notificationIdFor(scheduled: ScheduledNotification): Int =
+        if (scheduled.type == ReminderType.ALARM) {
+            AlarmService.NOTIFICATION_ID
+        } else {
+            scheduled.id.toInt().let { if (it == 0) scheduled.eventId.toInt() else it }
+        }
+
     fun post(
         scheduled: ScheduledNotification,
         details: PlanItemDetails,
         settings: AppSettings,
         openChecklistItems: Int,
     ) {
+        val notification = buildNotification(scheduled, details, settings, openChecklistItems)
+        runCatching { manager.notify(notificationIdFor(scheduled), notification) }
+    }
+
+    fun buildNotification(
+        scheduled: ScheduledNotification,
+        details: PlanItemDetails,
+        settings: AppSettings,
+        openChecklistItems: Int,
+        ongoing: Boolean = false,
+    ): Notification {
         NotificationChannels.ensureChannels(context, settings)
         val item = details.item
         val isAdvance = scheduled.kind in ADVANCE_KINDS
+        val isAlarm = scheduled.type == ReminderType.ALARM
         val channelId = NotificationChannels.channelId(scheduled.type, isAdvance, settings)
-        val notificationId = scheduled.id.toInt().let { if (it == 0) item.id.toInt() else it }
+        val notificationId = notificationIdFor(scheduled)
         val now = TimeUtils.now()
 
         val title = NotificationMessages.title(context, scheduled.kind, item, scheduled.occurrenceStart, now)
@@ -49,7 +70,7 @@ class Notifier(private val context: Context) {
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(buildBigText(details, text)))
             .setContentIntent(openEventIntent(item.id, notificationId))
-            .setAutoCancel(scheduled.type != ReminderType.ALARM)
+            .setAutoCancel(!isAlarm)
             .setOnlyAlertOnce(false)
             .setWhen(scheduled.occurrenceStart)
             .setShowWhen(true)
@@ -66,13 +87,9 @@ class Notifier(private val context: Context) {
                 }
             )
             .setCategory(
-                if (scheduled.type == ReminderType.ALARM) NotificationCompat.CATEGORY_ALARM
+                if (isAlarm) NotificationCompat.CATEGORY_ALARM
                 else NotificationCompat.CATEGORY_REMINDER
             )
-
-        if (item.priority == Priority.CRITICAL) {
-            builder.setColorized(false)
-        }
 
         builder.addAction(
             0, context.getString(R.string.notif_action_open), openEventIntent(item.id, notificationId)
@@ -86,15 +103,22 @@ class Notifier(private val context: Context) {
             actionIntent(Extras.ACTION_DONE, item.id, notificationId, scheduled.id)
         )
 
-        if (scheduled.type == ReminderType.ALARM) {
+        if (isAlarm) {
             builder.setOngoing(true)
+            builder.setAutoCancel(false)
+            builder.setUsesChronometer(false)
+            // The full-screen intent is what turns a notification into a real alarm screen.
             builder.setFullScreenIntent(alarmIntent(item.id, notificationId, scheduled), true)
-            builder.setDeleteIntent(actionIntent(Extras.ACTION_ALARM_STOP, item.id, notificationId, scheduled.id))
+            builder.setDeleteIntent(
+                actionIntent(Extras.ACTION_ALARM_STOP, item.id, notificationId, scheduled.id)
+            )
+        } else if (ongoing) {
+            builder.setOngoing(true)
         }
 
         if (!settings.soundEnabled) builder.setSilent(true)
 
-        runCatching { manager.notify(notificationId, builder.build()) }
+        return builder.build()
     }
 
     private fun buildBigText(details: PlanItemDetails, text: String): String {
@@ -154,7 +178,9 @@ class Notifier(private val context: Context) {
             putExtra(Extras.EXTRA_NOTIFICATION_ID, notificationId)
             putExtra(Extras.EXTRA_SCHEDULE_ID, scheduled.id)
             putExtra(Extras.EXTRA_OCCURRENCE, scheduled.occurrenceStart)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                Intent.FLAG_ACTIVITY_NO_USER_ACTION
         }
         return PendingIntent.getActivity(context, notificationId * 31 + 3, intent, flags())
     }
@@ -181,10 +207,5 @@ class Notifier(private val context: Context) {
             NotificationKind.RANDOM,
             NotificationKind.CHECKLIST,
         )
-
-        fun supportsFullScreen(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-
-        @Suppress("unused")
-        fun defaultFlags(): Int = Notification.FLAG_AUTO_CANCEL
     }
 }

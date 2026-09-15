@@ -14,6 +14,9 @@ import com.foksi.app.domain.model.ItemType
 import com.foksi.app.domain.model.PlanItem
 import com.foksi.app.domain.model.PlanItemDetails
 import com.foksi.app.domain.model.Reminder
+import com.foksi.app.domain.logic.Birthdays
+import com.foksi.app.domain.model.RepeatMode
+import com.foksi.app.domain.model.RepeatRule
 import com.foksi.app.domain.model.ReminderType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -64,23 +67,33 @@ class EditorViewModel : ViewModel() {
                     return@launch
                 }
             }
-            val start = prefillStart ?: defaultStart()
-            val wantsDate = type == ItemType.EVENT
+            val isBirthday = type == ItemType.BIRTHDAY
+            val start = prefillStart ?: if (isBirthday) defaultBirthDate() else defaultStart()
+            val wantsDate = type == ItemType.EVENT || isBirthday
             _state.value = EditorUiState(
                 details = PlanItemDetails(
                     item = PlanItem(
                         type = type,
                         startAt = if (wantsDate) start else null,
+                        allDay = isBirthday,
                         durationMinutes = settings.defaultDurationMinutes,
+                        repeat = if (isBirthday) {
+                            RepeatRule(mode = RepeatMode.YEARLY, interval = 1)
+                        } else {
+                            RepeatRule()
+                        },
                         advance = AdvanceConfig(
                             enabled = settings.advanceDefaultEnabled && type == ItemType.EVENT,
                             perWeek = settings.advanceDefaultPerWeek,
                         ),
                     ),
-                    reminders = if (type == ItemType.EVENT) {
-                        listOf(Reminder(minutesBefore = 30, type = ReminderType.NORMAL))
-                    } else {
-                        emptyList()
+                    reminders = when {
+                        isBirthday -> Birthdays.DEFAULT_REMINDER_OFFSETS.map {
+                            Reminder(minutesBefore = it, type = ReminderType.NORMAL)
+                        }
+                        type == ItemType.EVENT ->
+                            listOf(Reminder(minutesBefore = 30, type = ReminderType.NORMAL))
+                        else -> emptyList()
                     },
                 ),
                 settings = settings,
@@ -90,6 +103,12 @@ class EditorViewModel : ViewModel() {
                 loaded = true,
             )
         }
+    }
+
+    /** A birthday picker that opens on "today, thirty years ago" is a friendlier starting point. */
+    private fun defaultBirthDate(): Long {
+        val today = TimeUtils.toLocalDate(TimeUtils.now()).minusYears(30)
+        return TimeUtils.toMillis(today, LocalTime.of(Birthdays.DEFAULT_HOUR, 0))
     }
 
     private fun defaultStart(): Long {
@@ -119,6 +138,8 @@ class EditorViewModel : ViewModel() {
     fun setAllDay(value: Boolean) = updateItem { it.copy(allDay = value) }
     fun setType(value: ItemType) = updateItem { it.copy(type = value) }
 
+    fun setBirthYearKnown(value: Boolean) = updateItem { it.copy(birthYearKnown = value) }
+
     fun setHasDate(value: Boolean) {
         _state.update { current ->
             val item = current.details.item
@@ -133,7 +154,11 @@ class EditorViewModel : ViewModel() {
 
     fun setDate(date: LocalDate) = updateItem { item ->
         val current = item.startAt ?: defaultStart()
-        val time = TimeUtils.toLocalDateTime(current).toLocalTime()
+        val time = if (item.type == ItemType.BIRTHDAY) {
+            LocalTime.of(Birthdays.DEFAULT_HOUR, 0)
+        } else {
+            TimeUtils.toLocalDateTime(current).toLocalTime()
+        }
         item.copy(startAt = TimeUtils.toMillis(date, time))
     }
 
@@ -269,9 +294,10 @@ class EditorViewModel : ViewModel() {
             return
         }
         viewModelScope.launch {
-            val toSave = current.details.copy(
-                item = item.copy(startAt = if (current.hasDate) item.startAt else null)
-            )
+            val normalised = item
+                .copy(startAt = if (current.hasDate) item.startAt else null)
+                .let { if (it.type == ItemType.BIRTHDAY) Birthdays.asBirthday(it) else it }
+            val toSave = current.details.copy(item = normalised)
             val id = interactor.save(toSave)
             onSaved(id)
         }

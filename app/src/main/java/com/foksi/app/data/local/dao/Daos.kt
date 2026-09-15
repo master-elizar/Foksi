@@ -89,6 +89,10 @@ interface EventDao {
     @Query("SELECT * FROM events WHERE type = 'NOTE' ORDER BY updatedAt DESC LIMIT :limit")
     suspend fun getNotes(limit: Int): List<EventEntity>
 
+    @Transaction
+    @Query("SELECT * FROM events WHERE type = 'BIRTHDAY' ORDER BY startAt ASC")
+    fun observeBirthdays(): Flow<List<EventWithDetails>>
+
     @Query("SELECT * FROM events WHERE completed = 0 ORDER BY COALESCE(startAt, createdAt) ASC")
     suspend fun getSchedulable(): List<EventEntity>
 

@@ -347,6 +347,7 @@
     <string name="status_ok">Напоминания активны</string>
     <string name="status_exact_alarm">Для точного будильника требуется разрешение Android</string>
     <string name="status_notifications_off">Уведомления отключены в настройках Android</string>
+    <string name="status_full_screen">Для экрана будильника требуется разрешение Android</string>
     <string name="status_battery">Оптимизация батареи может задерживать напоминания</string>
     <string name="status_app_disabled">Уведомления выключены внутри Foksi</string>
     <string name="status_fix">Исправить</string>
@@ -419,4 +420,36 @@
     <string name="cd_remove">Удалить</string>
     <string name="cd_priority_icon">Отметка приоритета</string>
     <string name="cd_widget_open">Открыть Foksi</string>
+
+    <string name="nav_birthdays">Дни рожд.</string>
+    <string name="birthdays_title">Дни рождения</string>
+    <string name="birthdays_count">Записей: %d</string>
+    <string name="birthdays_nearest">Ближайший</string>
+    <string name="birthdays_today">Сегодня</string>
+    <string name="birthdays_this_month">В ближайший месяц</string>
+    <string name="birthdays_later">Позже в этом году</string>
+    <string name="birthdays_today_label">Сегодня! 🎉</string>
+    <string name="birthdays_today_short">сегодня</string>
+    <string name="birthdays_turns">исполнится %d</string>
+    <string name="birthdays_empty_title">Дней рождения пока нет</string>
+    <string name="birthdays_empty_subtitle">Добавь людей, о которых не хочешь забыть — Foksi напомнит за неделю и в сам день.</string>
+    <string name="birthdays_add">+ Добавить день рождения</string>
+    <string name="type_birthday">День рождения</string>
+    <string name="editor_new_birthday">Новый день рождения</string>
+    <string name="editor_edit_birthday">Редактирование дня рождения</string>
+    <string name="field_person">Имя</string>
+    <string name="field_person_hint">Иван Петров</string>
+    <string name="field_birth_date">Дата рождения</string>
+    <string name="field_birth_year_known">Год рождения известен</string>
+    <string name="field_birth_year_hint">Без года Foksi не будет показывать возраст</string>
+    <string name="quick_add_birthday">День рождения</string>
+    <string name="quick_add_birthday_desc">Человек и дата</string>
+    <string name="quick_task_description_hint">Описание (необязательно)</string>
+    <plurals name="birthdays_age">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+        <item quantity="other">%d года</item>
+    </plurals>
+    <string name="msg_birthday_today">Сегодня день рождения: %s 🎉</string>
 </resources>

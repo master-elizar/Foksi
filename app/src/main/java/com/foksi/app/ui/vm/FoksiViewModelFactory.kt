@@ -13,6 +13,7 @@ object FoksiViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModel: ViewModel = when {
             modelClass.isAssignableFrom(AgendaViewModel::class.java) -> AgendaViewModel()
+            modelClass.isAssignableFrom(BirthdayViewModel::class.java) -> BirthdayViewModel()
             modelClass.isAssignableFrom(CalendarViewModel::class.java) -> CalendarViewModel()
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel()
             modelClass.isAssignableFrom(EditorViewModel::class.java) -> EditorViewModel()
