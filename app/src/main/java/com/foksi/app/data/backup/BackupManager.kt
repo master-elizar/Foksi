@@ -257,12 +257,12 @@ class BackupManager(
         .replace("\\", "\\\\")
         .replace("\n", "\\n")
         .replace(",", "\\,")
-        .replace(";", "\;")
+        .replace(";", "\\;")
 
     private fun unescape(value: String): String = value
         .replace("\\n", "\n")
         .replace("\\,", ",")
-        .replace("\;", ";")
+        .replace("\\;", ";")
         .replace("\\\\", "\\")
 
     private suspend fun importIcs(text: String): Int {

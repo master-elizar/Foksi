@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+
 package com.foksi.app.ui.navigation
 
 import androidx.compose.animation.core.tween
