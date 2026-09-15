@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Foksi</string>
+
+    <string name="nav_today">Сегодня</string>
+    <string name="nav_calendar">Календарь</string>
+    <string name="nav_tasks">Задачи</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_whats_next">Что дальше?</string>
+
+    <string name="action_add">Добавить</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="action_open">Открыть</string>
+    <string name="action_done">Выполнено</string>
+    <string name="action_undone">Вернуть</string>
+    <string name="action_duplicate">Дублировать</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_back">Назад</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_snooze">Отложить</string>
+    <string name="action_confirm">Подтвердить</string>
+    <string name="action_ok">ОК</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_apply">Применить</string>
+    <string name="action_more">Ещё</string>
+
+    <string name="greeting_morning">Доброе утро</string>
+    <string name="greeting_day">Добрый день</string>
+    <string name="greeting_evening">Добрый вечер</string>
+    <string name="greeting_night">Доброй ночи</string>
+    <string name="home_next_title">Ближайшее</string>
+    <string name="home_upcoming_title">Предстоящие события</string>
+    <string name="home_today_title">Сегодня</string>
+    <string name="home_countdown_label">До события</string>
+    <string name="home_empty_title">Всё спокойно</string>
+    <string name="home_empty_subtitle">Добавь первое событие, чтобы ничего важного не забыть.</string>
+    <string name="home_empty_action">+ Добавить событие</string>
+    <string name="home_no_upcoming">Впереди пока пусто</string>
+    <string name="home_overdue_title">Просрочено</string>
+    <string name="home_progress">Выполнено %1$d из %2$d</string>
+
+    <string name="group_overdue">Просрочено</string>
+    <string name="group_today">Сегодня</string>
+    <string name="group_tomorrow">Завтра</string>
+    <string name="group_this_week">На этой неделе</string>
+    <string name="group_next_week">На следующей неделе</string>
+    <string name="group_this_month">В этом месяце</string>
+    <string name="group_later">Позже</string>
+    <string name="group_completed">Завершённые</string>
+    <string name="group_no_date">Без даты</string>
+
+    <string name="countdown_now">сейчас</string>
+    <string name="countdown_past">прошло</string>
+    <plurals name="countdown_days">
+        <item quantity="one">через %d день</item>
+        <item quantity="few">через %d дня</item>
+        <item quantity="many">через %d дней</item>
+        <item quantity="other">через %d дня</item>
+    </plurals>
+    <plurals name="countdown_hours">
+        <item quantity="one">через %d час</item>
+        <item quantity="few">через %d часа</item>
+        <item quantity="many">через %d часов</item>
+        <item quantity="other">через %d часа</item>
+    </plurals>
+    <plurals name="countdown_minutes">
+        <item quantity="one">через %d минуту</item>
+        <item quantity="few">через %d минуты</item>
+        <item quantity="many">через %d минут</item>
+        <item quantity="other">через %d минуты</item>
+    </plurals>
+    <plurals name="countdown_weeks">
+        <item quantity="one">через %d неделю</item>
+        <item quantity="few">через %d недели</item>
+        <item quantity="many">через %d недель</item>
+        <item quantity="other">через %d недели</item>
+    </plurals>
+    <plurals name="days_short">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+
+    <string name="quick_add_title">Что добавить?</string>
+    <string name="quick_add_event">Событие</string>
+    <string name="quick_add_event_desc">Дата, время, напоминания</string>
+    <string name="quick_add_task">Задача</string>
+    <string name="quick_add_task_desc">Дело, которое нужно сделать</string>
+    <string name="quick_add_note">Быстрая заметка</string>
+    <string name="quick_add_note_desc">Записать за секунду</string>
+    <string name="quick_note_hint">Позвонить Ивану завтра утром</string>
+    <string name="quick_note_saved">Заметка сохранена</string>
+    <string name="quick_task_hint">Что нужно сделать?</string>
+
+    <string name="editor_new_event">Новое событие</string>
+    <string name="editor_new_task">Новая задача</string>
+    <string name="editor_new_note">Новая заметка</string>
+    <string name="editor_edit_event">Редактирование события</string>
+    <string name="editor_edit_task">Редактирование задачи</string>
+    <string name="editor_edit_note">Редактирование заметки</string>
+    <string name="field_title">Название</string>
+    <string name="field_title_hint">Собеседование в Security Company</string>
+    <string name="field_description">Описание</string>
+    <string name="field_notes">Заметки</string>
+    <string name="field_notes_hint">Подготовить резюме, повторить Linux, вопросы по Kubernetes…</string>
+    <string name="field_date">Дата</string>
+    <string name="field_time">Время</string>
+    <string name="field_duration">Продолжительность</string>
+    <string name="field_location">Место</string>
+    <string name="field_location_hint">Офис или переговорная</string>
+    <string name="field_url">Ссылка</string>
+    <string name="field_url_hint">https://…</string>
+    <string name="field_category">Категория</string>
+    <string name="field_color">Цвет</string>
+    <string name="field_priority">Приоритет</string>
+    <string name="field_all_day">Весь день</string>
+    <string name="field_has_date">Есть дата</string>
+    <string name="section_reminders">Напоминания</string>
+    <string name="section_advance">Напоминать заранее</string>
+    <string name="section_checklist">Чек-лист</string>
+    <string name="section_attachments">Вложения</string>
+    <string name="section_repeat">Повтор</string>
+    <string name="section_basics">Основное</string>
+    <string name="section_details">Детали</string>
+    <string name="title_required">Нужно название</string>
+    <string name="saved">Сохранено</string>
+    <string name="deleted">Удалено</string>
+    <string name="duplicated">Создана копия</string>
+
+    <string name="duration_minutes">%d мин</string>
+    <string name="duration_hours">%d ч</string>
+    <string name="duration_hours_minutes">%1$d ч %2$d мин</string>
+
+    <string name="priority_normal">Обычный</string>
+    <string name="priority_important">Важный</string>
+    <string name="priority_critical">Очень важный</string>
+
+    <string name="type_event">Событие</string>
+    <string name="type_task">Задача</string>
+    <string name="type_note">Заметка</string>
+
+    <string name="category_work">Работа</string>
+    <string name="category_study">Учёба</string>
+    <string name="category_personal">Личное</string>
+    <string name="category_meetings">Встречи</string>
+    <string name="category_important">Важное</string>
+    <string name="category_other">Другое</string>
+    <string name="category_none">Без категории</string>
+    <string name="category_new">Новая категория</string>
+    <string name="category_name">Название категории</string>
+    <string name="categories_title">Категории</string>
+
+    <string name="reminder_add">Добавить напоминание</string>
+    <string name="reminder_at_time">В момент события</string>
+    <string name="reminder_custom">Своё значение…</string>
+    <string name="reminder_before">за %s</string>
+    <string name="reminder_type_normal">Обычное</string>
+    <string name="reminder_type_important">Важное</string>
+    <string name="reminder_type_alarm">Будильник</string>
+    <string name="reminder_type">Тип уведомления</string>
+    <string name="reminder_repeat_until_ack">Повторять, пока не подтверждено</string>
+    <string name="reminder_repeat_every">Каждые %d мин</string>
+    <string name="reminder_repeat_times">максимум %d раз</string>
+    <string name="reminder_none">Напоминаний пока нет</string>
+    <string name="reminder_5m">5 минут</string>
+    <string name="reminder_10m">10 минут</string>
+    <string name="reminder_15m">15 минут</string>
+    <string name="reminder_30m">30 минут</string>
+    <string name="reminder_1h">1 час</string>
+    <string name="reminder_2h">2 часа</string>
+    <string name="reminder_3h">3 часа</string>
+    <string name="reminder_6h">6 часов</string>
+    <string name="reminder_12h">12 часов</string>
+    <string name="reminder_1d">1 день</string>
+    <string name="reminder_2d">2 дня</string>
+    <string name="reminder_3d">3 дня</string>
+    <string name="reminder_1w">1 неделю</string>
+    <string name="reminder_2w">2 недели</string>
+    <string name="custom_minutes_before">За сколько минут</string>
+
+    <string name="advance_enable">Напоминать заранее</string>
+    <string name="advance_explainer">Foksi будет напоминать о событии в дни до него, чтобы ты успел подготовиться.</string>
+    <string name="advance_start">Начать напоминать</string>
+    <string name="advance_start_value">за %s</string>
+    <string name="advance_mode">Режим</string>
+    <string name="advance_mode_chain">Цепочка подготовки</string>
+    <string name="advance_mode_chain_desc">14 дней → 7 → 3 → 1 день → 3 ч → 30 мин</string>
+    <string name="advance_mode_interval">Каждые N дней</string>
+    <string name="advance_mode_random">Случайные напоминания</string>
+    <string name="advance_interval_days">Интервал, дней</string>
+    <string name="advance_per_week">Напоминаний в неделю</string>
+    <string name="advance_window">Разрешённые часы</string>
+    <string name="advance_window_value">%1$s – %2$s</string>
+    <string name="advance_workdays_only">Только рабочие дни</string>
+    <string name="advance_preview">Предпросмотр</string>
+    <string name="advance_preview_empty">Предварительных напоминаний нет</string>
+    <string name="advance_chain_editable">Нажми на этап, чтобы отключить его</string>
+    <string name="advance_checklist_nudge">Напомнить, если чек-лист не завершён</string>
+
+    <string name="repeat_none">Не повторяется</string>
+    <string name="repeat_daily">Каждый день</string>
+    <string name="repeat_weekly">Каждую неделю</string>
+    <string name="repeat_monthly">Каждый месяц</string>
+    <string name="repeat_yearly">Каждый год</string>
+    <string name="repeat_custom">Пользовательский</string>
+    <string name="repeat_every_n_days">Каждые %d дней</string>
+    <string name="repeat_every_n_weeks">Каждые %d недель</string>
+    <string name="repeat_interval">Интервал</string>
+    <string name="repeat_weekdays">Дни недели</string>
+    <string name="repeat_until">Повторять до</string>
+    <string name="repeat_forever">Без даты окончания</string>
+
+    <string name="checklist_add">Добавить пункт</string>
+    <string name="checklist_hint">Новый пункт чек-листа</string>
+    <string name="checklist_progress">%1$d / %2$d выполнено</string>
+    <string name="checklist_move_up">Выше</string>
+    <string name="checklist_move_down">Ниже</string>
+
+    <string name="attachment_add_file">Прикрепить файл</string>
+    <string name="attachment_add_link">Добавить ссылку</string>
+    <string name="attachment_link_hint">https://meet.example.com/interview</string>
+    <string name="attachment_open_failed">Не удалось открыть вложение</string>
+    <string name="attachment_name">Название</string>
+
+    <string name="detail_status">Статус</string>
+    <string name="detail_status_active">Активно</string>
+    <string name="detail_status_done">Выполнено</string>
+    <string name="detail_status_overdue">Просрочено</string>
+    <string name="detail_reminders_count">Напоминаний: %d</string>
+    <string name="detail_next_reminder">Следующее напоминание: %s</string>
+    <string name="detail_no_next_reminder">Напоминания не запланированы</string>
+    <string name="detail_delete_confirm">Удалить запись?</string>
+    <string name="detail_delete_confirm_text">Это действие нельзя отменить.</string>
+
+    <string name="calendar_month">Месяц</string>
+    <string name="calendar_week">Неделя</string>
+    <string name="calendar_day">День</string>
+    <string name="calendar_agenda">Список</string>
+    <string name="calendar_today">Сегодня</string>
+    <string name="calendar_no_events">В этот день ничего нет</string>
+    <string name="calendar_prev">Назад</string>
+    <string name="calendar_next">Вперёд</string>
+
+    <string name="search_hint">Искать события, задачи, заметки</string>
+    <string name="search_empty">Ничего не найдено</string>
+    <string name="search_start">Начни вводить запрос</string>
+    <string name="filter_all">Все</string>
+    <string name="filter_today">Сегодня</string>
+    <string name="filter_tomorrow">Завтра</string>
+    <string name="filter_week">Ближайшая неделя</string>
+    <string name="filter_important">Важные</string>
+    <string name="filter_overdue">Просроченные</string>
+    <string name="filter_completed">Завершённые</string>
+    <string name="filter_with_notes">С заметками</string>
+    <string name="filter_category">Категория</string>
+    <string name="filters">Фильтры</string>
+
+    <string name="tasks_title">Задачи и заметки</string>
+    <string name="tasks_empty">Задач пока нет</string>
+    <string name="tasks_notes">Заметки</string>
+    <string name="tasks_open">Активные</string>
+    <string name="tasks_done">Выполненные</string>
+
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_start">Начать</string>
+    <string name="onboarding_1_title">Записал один раз</string>
+    <string name="onboarding_1_text">Создавай события, задачи и быстрые заметки в пару касаний. Без регистрации — всё хранится на устройстве.</string>
+    <string name="onboarding_2_title">Foksi напомнит заранее</string>
+    <string name="onboarding_2_text">Выбирай напоминания для каждого события: за неделю, за три дня, за час или будильник, который точно разбудит.</string>
+    <string name="onboarding_3_title">Всегда на виду</string>
+    <string name="onboarding_3_text">Поставь виджет на главный экран и держи обратный отсчёт до важного перед глазами.</string>
+
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_palette">Цветовая схема</string>
+    <string name="palette_ubuntu">Ubuntu</string>
+    <string name="palette_lavender">Lavender</string>
+    <string name="palette_mint">Mint</string>
+    <string name="palette_sky">Sky</string>
+    <string name="palette_rose">Rose</string>
+    <string name="settings_text_size">Размер текста</string>
+    <string name="text_size_small">Мелкий</string>
+    <string name="text_size_normal">Обычный</string>
+    <string name="text_size_large">Крупный</string>
+    <string name="text_size_huge">Очень крупный</string>
+
+    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_notifications_enabled">Уведомления включены</string>
+    <string name="settings_normal_enabled">Обычные уведомления</string>
+    <string name="settings_important_enabled">Важные уведомления</string>
+    <string name="settings_alarms_enabled">Будильники</string>
+    <string name="settings_sound">Звук</string>
+    <string name="settings_vibration">Вибрация</string>
+    <string name="settings_lockscreen">Показывать на экране блокировки</string>
+    <string name="settings_quiet_hours">Тихие часы</string>
+    <string name="settings_quiet_from">С</string>
+    <string name="settings_quiet_to">До</string>
+    <string name="settings_quiet_allow_important">Разрешить важные уведомления</string>
+    <string name="settings_quiet_allow_alarms">Разрешить будильники</string>
+    <string name="settings_advance_default">Предварительные напоминания по умолчанию</string>
+    <string name="settings_advance_per_week">Дополнительных уведомлений в неделю</string>
+    <string name="settings_min_gap">Минимальный интервал между напоминаниями</string>
+    <string name="settings_min_gap_value">%d ч</string>
+    <string name="settings_notification_sound">Звук уведомления</string>
+    <string name="settings_alarm_sound">Звук будильника</string>
+    <string name="sound_system_default">Системный</string>
+    <string name="sound_pick">Выбрать звук…</string>
+
+    <string name="settings_calendar">Календарь</string>
+    <string name="settings_first_day">Первый день недели</string>
+    <string name="settings_time_format">Формат времени</string>
+    <string name="time_format_24">24 часа</string>
+    <string name="time_format_12">12 часов</string>
+    <string name="settings_default_duration">Стандартная длительность</string>
+
+    <string name="settings_widgets">Виджеты</string>
+    <string name="settings_widget_count">Событий в виджете</string>
+    <string name="settings_widget_notes">Показывать заметки</string>
+    <string name="settings_widget_completed">Показывать выполненные</string>
+    <string name="settings_widget_countdown">Показывать обратный отсчёт</string>
+
+    <string name="settings_data">Данные</string>
+    <string name="settings_export_json">Экспорт в JSON</string>
+    <string name="settings_export_ics">Экспорт в ICS</string>
+    <string name="settings_import">Импорт (JSON или ICS)</string>
+    <string name="settings_backup">Создать резервную копию</string>
+    <string name="settings_restore">Восстановить из копии</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_version">Версия %s</string>
+    <string name="settings_about_text">Foksi хранит твои планы на устройстве. Без аккаунта, без облака, без слежки.</string>
+
+    <string name="export_success">Экспортировано записей: %d</string>
+    <string name="export_failed">Не удалось экспортировать</string>
+    <string name="import_success">Импортировано записей: %d</string>
+    <string name="import_failed">Не удалось прочитать файл</string>
+    <string name="backup_success">Резервная копия создана</string>
+    <string name="restore_success">Копия восстановлена</string>
+
+    <string name="status_ok">Напоминания активны</string>
+    <string name="status_exact_alarm">Для точного будильника требуется разрешение Android</string>
+    <string name="status_notifications_off">Уведомления отключены в настройках Android</string>
+    <string name="status_battery">Оптимизация батареи может задерживать напоминания</string>
+    <string name="status_app_disabled">Уведомления выключены внутри Foksi</string>
+    <string name="status_fix">Исправить</string>
+    <string name="permission_rationale">Foksi нужно разрешение на уведомления, чтобы напоминать о событиях.</string>
+    <string name="permission_grant">Разрешить</string>
+
+    <string name="channel_normal_name">Напоминания</string>
+    <string name="channel_normal_desc">Обычные напоминания о событиях и задачах</string>
+    <string name="channel_important_name">Важные напоминания</string>
+    <string name="channel_important_desc">Напоминания о важных событиях</string>
+    <string name="channel_alarm_name">Будильники</string>
+    <string name="channel_alarm_desc">Громкие напоминания в режиме будильника</string>
+    <string name="channel_advance_name">Предварительные напоминания</string>
+    <string name="channel_advance_desc">Спокойные напоминания о будущих событиях</string>
+
+    <string name="notif_action_open">Открыть</string>
+    <string name="notif_action_snooze">Отложить</string>
+    <string name="notif_action_done">Выполнено</string>
+    <string name="notif_action_dismiss">Скрыть</string>
+    <string name="notif_starts_at">%s</string>
+    <string name="notif_checklist_left">Не выполнено пунктов чек-листа: %d</string>
+    <string name="notif_snoozed_until">Отложено до %s</string>
+
+    <string name="msg_now">%s начинается</string>
+    <string name="msg_in_minutes">%1$s через %2$d мин</string>
+    <string name="msg_in_hours">%1$s через %2$d ч</string>
+    <string name="msg_tomorrow">%s — завтра</string>
+    <plurals name="msg_in_days">
+        <item quantity="one">%1$s через %2$d день</item>
+        <item quantity="few">%1$s через %2$d дня</item>
+        <item quantity="many">%1$s через %2$d дней</item>
+        <item quantity="other">%1$s через %2$d дня</item>
+    </plurals>
+    <plurals name="msg_advance_days">
+        <item quantity="one">До события «%1$s» остался %2$d день — пора готовиться</item>
+        <item quantity="few">До события «%1$s» осталось %2$d дня — пора готовиться</item>
+        <item quantity="many">До события «%1$s» осталось %2$d дней — пора готовиться</item>
+        <item quantity="other">До события «%1$s» осталось %2$d дня — пора готовиться</item>
+    </plurals>
+    <string name="msg_week">«%s» — уже через неделю</string>
+    <string name="msg_two_weeks">«%s» — через две недели</string>
+
+    <string name="snooze_title">Отложить до…</string>
+    <string name="snooze_5m">5 минут</string>
+    <string name="snooze_10m">10 минут</string>
+    <string name="snooze_30m">30 минут</string>
+    <string name="snooze_1h">1 час</string>
+    <string name="snooze_2h">2 часа</string>
+    <string name="snooze_tonight">Сегодня вечером</string>
+    <string name="snooze_tomorrow">Завтра утром</string>
+    <string name="snooze_pick">Выбрать дату и время</string>
+
+    <string name="alarm_open_event">Открыть событие</string>
+    <string name="alarm_snooze">Отложить</string>
+    <string name="alarm_confirm">Подтвердить</string>
+
+    <string name="widget_next_label">Foksi · Ближайшее</string>
+    <string name="widget_upcoming_label">Foksi · Предстоящие</string>
+    <string name="widget_overview_label">Foksi · Обзор</string>
+    <string name="widget_empty">Планов нет</string>
+    <string name="widget_add">Добавить</string>
+    <string name="widget_notes_title">Заметки</string>
+    <string name="widget_tasks_title">Задачи</string>
+    <string name="widget_refresh">Обновить</string>
+
+    <string name="cd_add_button">Добавить событие, задачу или заметку</string>
+    <string name="cd_open_search">Открыть поиск</string>
+    <string name="cd_back">Назад</string>
+    <string name="cd_toggle_done">Отметить выполненным</string>
+    <string name="cd_remove">Удалить</string>
+    <string name="cd_priority_icon">Отметка приоритета</string>
+    <string name="cd_widget_open">Открыть Foksi</string>
+</resources>
