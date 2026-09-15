@@ -25,15 +25,15 @@ jobs:
 
       - name: Unit tests
         timeout-minutes: 25
-        run: ./gradlew :app:testDebugUnitTest --stacktrace --console=plain
+        run: ./gradlew :app:testDebugUnitTest --console=plain
 
       - name: Build debug APK
         timeout-minutes: 30
-        run: ./gradlew :app:assembleDebug --stacktrace --console=plain
+        run: ./gradlew :app:assembleDebug --console=plain
 
       - name: Build release APK
         timeout-minutes: 30
-        run: ./gradlew :app:assembleRelease --stacktrace --console=plain
+        run: ./gradlew :app:assembleRelease --console=plain
 
       - name: List outputs
         if: always()
