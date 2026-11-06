@@ -22,10 +22,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("foksi-release.jks")
-            storePassword = "foksi-release"
-            keyAlias = "foksi"
-            keyPassword = "foksi-release"
+            storeFile = providers.environmentVariable("FOKSI_UPLOAD_STORE").orNull?.let { file(it) }
+            storePassword = providers.environmentVariable("FOKSI_UPLOAD_PASSWORD").orNull
+            keyAlias = "upload"
+            keyPassword = storePassword
         }
     }
 
@@ -37,7 +37,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = if (file("foksi-release.jks").exists()) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -92,3 +92,14 @@ dependencies {
 
     testImplementation(libs.junit)
 }
+
+val requireUploadKey = tasks.register("requireUploadKey") {
+    doLast {
+        val store = providers.environmentVariable("FOKSI_UPLOAD_STORE").orNull
+        check(!store.isNullOrBlank() && file(store).isFile &&
+            !providers.environmentVariable("FOKSI_UPLOAD_PASSWORD").orNull.isNullOrBlank()) {
+            "Release signing requires FOKSI_UPLOAD_STORE and FOKSI_UPLOAD_PASSWORD."
+        }
+    }
+}
+tasks.matching { it.name == "preReleaseBuild" }.configureEach { dependsOn(requireUploadKey) }

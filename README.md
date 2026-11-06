@@ -51,16 +51,6 @@ app/src/main/java/com/foksi/app/
 
 ## Сборка
 
-```bash
-./gradlew :app:assembleDebug     # отладочный APK
-./gradlew :app:assembleRelease   # релизный APK (подписан ключом из app/foksi-release.jks)
-./gradlew :app:testDebugUnitTest # юнит-тесты логики напоминаний и повторов
-```
+Для разработки нужны JDK 17 и Android SDK 35. Запустите Gradle Wrapper с задачами :app:testDebugUnitTest и :app:assembleDebug. GitHub Actions сохраняет отладочный APK в артефактах запуска.
 
-APK появится в `app/build/outputs/apk/`. Сборка также выполняется в GitHub Actions
-(`.github/workflows/build.yml`) — готовые APK лежат в артефактах запуска.
-
-Требования: JDK 17, Android SDK 35, minSdk 26.
-
-> Ключ подписи в репозитории предназначен только для личных сборок этого приложения;
-> для публикации в Google Play замените его собственным.
+Для сборки AAB задайте FOKSI_UPLOAD_STORE (абсолютный путь к закрытому хранилищу с алиасом upload) и FOKSI_UPLOAD_PASSWORD (пароль ключа и хранилища) в окружении процесса. Запустите :app:bundleRelease. Результат появится в app/build/outputs/bundle/release/.

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -34,35 +34,8 @@ jobs:
         timeout-minutes: 30
         run: ./gradlew :app:assembleDebug --console=plain
 
-      - name: Build release APK
-        timeout-minutes: 30
-        run: ./gradlew :app:assembleRelease --console=plain
-
-      - name: List outputs
-        if: always()
-        run: find app/build/outputs -name '*.apk' -exec ls -lh {} + || true
-
-      - name: Upload APKs
-        if: always()
+      - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: foksi-apk
-          if-no-files-found: ignore
-          path: |
-            app/build/outputs/apk/debug/*.apk
-            app/build/outputs/apk/release/*.apk
-
-      - name: Publish release with installable APKs
-        if: success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -e
-          TAG="build-${GITHUB_RUN_NUMBER}"
-          mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk "dist/foksi-${TAG}-release.apk"
-          cp app/build/outputs/apk/debug/app-debug.apk "dist/foksi-${TAG}-debug.apk"
-          gh release create "$TAG" dist/*.apk \
-            --title "Foksi $TAG" \
-            --notes "Сборка Foksi из ${GITHUB_SHA}. Для установки на телефон скачай foksi-${TAG}-release.apk." \
-            --target "$GITHUB_SHA"
+          name: foksi-debug
+          path: app/build/outputs/apk/debug/*.apk
